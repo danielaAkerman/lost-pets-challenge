@@ -4,9 +4,6 @@ import "./components/button"
 
 
 (function () {
-
-
-
   const root = document.querySelector(".root") as HTMLElement;
   initRouter(root);
 })();
