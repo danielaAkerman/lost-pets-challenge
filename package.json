@@ -1,0 +1,29 @@
+{
+  "name": "lost-pets",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev:be": "ts-node ./be-src/dev.ts",
+    "dev:fe": "ts-node ./fe-src/index.ts",
+    "dev": "npm run dev:be && npm run dev:fe",
+    "build:be": "tsc",
+    "build:fe": "",
+    "build": "npm run build:be && npm run build:fe",
+    "start": "node ./be-dist/index.js",
+    "sync": "ts-node ./be-src/sync.ts"
+  },
+  "dependencies": {
+    "@types/node": "^18.11.18",
+    "algoliasearch": "^4.14.3",
+    "cloudinary": "^1.33.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "process": "^0.11.10",
+    "sequelize": "^6.28.0",
+    "typescript": "^4.9.4"
+  }
+}
