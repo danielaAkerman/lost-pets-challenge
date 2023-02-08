@@ -1,6 +1,6 @@
 import { initRouter } from "./router";
 import { state } from "./state";
-import "./components/button"
+import "./components/navbar"
 
 
 (function () {
