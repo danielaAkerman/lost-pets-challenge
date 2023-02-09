@@ -4,6 +4,8 @@ import "./components/navbar"
 import "./components/button"
 import "./components/input"
 import "./components/textarea"
+import "./components/text"
+import "./components/card"
 
 
 (function () {

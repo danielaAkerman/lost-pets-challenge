@@ -1,17 +1,26 @@
 customElements.define(
-    "button-comp",
+    "card-comp",
     class extends HTMLElement {
       constructor() {
         super();
         this.render();
       }
       render() {
-        const text = this.textContent
-        const visual = this.getAttribute("visual");
+        const src = this.getAttribute("src");
+        const alt = this.getAttribute("alt");
+        const nombre = this.getAttribute("nombre");
+        const lugar = this.getAttribute("lugar");
         // primary, secondary, success, link
 
         this.innerHTML = `
-        <button type="button" class="btn btn-${visual}">${text}</button>
+      <div class="card" style="width: 18rem;">
+        <img src=${src} class="card-img-top" alt=${alt}>
+        <div class="card-body">
+        <h5 class="card-title">${nombre}</h5>
+        <p class="card-text text-uppercase">${lugar}</p>
+        <button-comp visual="link" id="button">VER</button-comp>
+        </div>
+      </div>
 `;
   
         // const datos = this.querySelector("#datos");

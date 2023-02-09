@@ -16,15 +16,14 @@ body {
 .root {
   width: 100%;
   height: 100%;
-  /* padding: 10px; */
-  max-width: 500px;
+  padding: 10px;
+  max-width: 450px;
   margin: 56px auto auto auto;
-  /* border-radius: 10% 7% 44% 5% / 2% 25% 11% 10%; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #fffcee;
-  /* background-image: url(./img/fondo.png); */
+  background-color: #9e987b;
+
 
 }
