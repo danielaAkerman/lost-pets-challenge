@@ -1,11 +1,16 @@
-// import { initPageWelcome } from "./pages/1-welcome";
+import { initPageWelcome } from "./pages/1";
+import { otraPage } from "./pages/2";
 
 
 const routes = [
-  // {
-  //   path: /\//,
-  //   handler: initPageWelcome,
-  // },
+  {
+    path: /\//,
+    handler: initPageWelcome,
+  },
+  {
+    path: /\/2/,
+    handler: otraPage,
+  },
   
 ];
 
