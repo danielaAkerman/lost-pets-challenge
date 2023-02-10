@@ -1,8 +1,8 @@
 import { initPageHome } from "./pages/1-home";
-import { initPageReport } from "./pages/2-reportar";
-import { initPageIngresar } from "./pages/3-ingresar";
-import { initPagePassword } from "./pages/4-password";
-import { initPageDatos } from "./pages/5-mis-datos";
+import { initPageIngresar } from "./pages/2-ingresar";
+import { initPagePassword } from "./pages/3-password";
+import { initPageDatos } from "./pages/4-mis-datos";
+import { initPageReport } from "./pages/5-reportar";
 import { initPageEditar } from "./pages/6-editar";
 import { initPageMascotas } from "./pages/7-mis-mascotas";
 
