@@ -1,17 +1,41 @@
-import { initPageWelcome } from "./pages/1";
-import { otraPage } from "./pages/2";
+import { initPageHome } from "./pages/1-home";
+import { initPageReport } from "./pages/2-reportar";
+import { initPageIngresar } from "./pages/3-ingresar";
+import { initPagePassword } from "./pages/4-password";
+import { initPageDatos } from "./pages/5-mis-datos";
+import { initPageEditar } from "./pages/6-editar";
+import { initPageMascotas } from "./pages/7-mis-mascotas";
 
 
 const routes = [
   {
     path: /\//,
-    handler: initPageWelcome,
+    handler: initPageHome,
   },
   {
-    path: /\/2/,
-    handler: otraPage,
+    path: /\/reportar/,
+    handler: initPageReport,
   },
-  
+  {
+    path: /\/ingresar/,
+    handler: initPageIngresar,
+  },
+  {
+    path: /\/password/,
+    handler: initPagePassword,
+  },
+  {
+    path: /\/mis-datos/,
+    handler: initPageDatos,
+  },
+  {
+    path: /\/editar/,
+    handler: initPageEditar,
+  },
+  {
+    path: /\/mis-mascotas/,
+    handler: initPageMascotas,
+  }
 ];
 
 export function initRouter(container: Element) {

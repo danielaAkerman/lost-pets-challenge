@@ -1,6 +1,6 @@
 // import { state } from "../../state";
 
-export function initPageWelcome(root) {
+export function initPageIngresar(root) {
   const div = document.createElement("div");
   div.innerHTML = `
   <text-comp size="fs-1" weight="fw-bold">HOLISHHHH hola como estas?</text-comp>

@@ -1,6 +1,6 @@
 // import { state } from "../../state";
 
-export function otraPage(root) {
+export function initPageReport(root) {
   const div = document.createElement("div");
   div.innerHTML = `
     <card-comp 
