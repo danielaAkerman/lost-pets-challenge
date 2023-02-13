@@ -5,14 +5,14 @@
   "license": "MIT",
   "scripts": {
     "dev:front": "parcel serve ./front-src/index.html",
-    "dev:be": "ts-node ./back-src/dev.ts",
+    "dev:be": "ts-node ./be-src/dev.ts",
     "dev:fe": "ts-node ./front-src/index.ts",
     "dev": "npm run dev:be && npm run dev:fe",
     "build:be": "tsc",
     "build:fe": "",
     "build": "npm run build:be && npm run build:fe",
     "start": "node ./be-dist/index.js",
-    "sync": "ts-node ./back-src/sync.ts"
+    "sync": "ts-node ./be-src/sync.ts"
   },
   "dependencies": {
     "@types/node": "^18.11.18",

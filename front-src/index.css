@@ -5,8 +5,8 @@
   box-sizing: border-box;
   text-align: center;
 }
-
-body {
+ */
+/* body {
   margin: 0;
   background-color: #071624;
   padding: 10px;
@@ -23,7 +23,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #9e987b;
+  /* background-color: #f7f89b; */
 
 
 }

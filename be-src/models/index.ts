@@ -1,8 +1,15 @@
 import { User } from "./user";
-import { Product } from "./product";
+import { Pet } from "./pet";
 import { Auth } from "./auth";
+import { Report } from "./report";
 
-User.hasMany(Product);
-Product.belongsTo(User);
+User.hasMany(Pet);
+Pet.belongsTo(User);
 
-export { User, Product, Auth };
+Auth.hasOne(User);
+User.belongsTo(Auth);
+
+Report.hasOne(Pet);
+Pet.belongsTo(Report);
+
+export { User, Pet, Auth, Report };

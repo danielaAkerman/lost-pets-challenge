@@ -59,8 +59,11 @@ customElements.define(
       </div>
     </nav>`;
 
-      const datos = this.querySelector("#datos");
-      datos!.addEventListener("click", (e) => console.log("CLICK EN DATOS"));
+      // const datos = this.querySelector("#datos");
+      // datos!.addEventListener("click", (e) => console.log("CLICK EN DATOS"));
+
+
+      
     }
   }
 );

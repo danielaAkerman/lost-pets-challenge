@@ -5,8 +5,8 @@ export class User extends Model {}
 User.init(
   {
     fullname: { type: DataTypes.STRING },
-    bio: { type: DataTypes.STRING },
-    pictureURL: { type: DataTypes.STRING }
+    email: { type: DataTypes.STRING },
+    pet_id: { type: DataTypes.INTEGER },
   },
   { sequelize, modelName: "user" }
 );
