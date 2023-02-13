@@ -1,24 +1,27 @@
-// import { state } from "../../state";
+import { state } from "../../state";
 
 export function initPageIngresar(root) {
   const div = document.createElement("div");
   div.innerHTML = `
   <text-comp size="fs-1" weight="fw-bold">Ingresar</text-comp>
   <br>
-  <input-comp 
-  type="email" 
-  placeholder="Ingresá tu email" 
-  name="usermail">
-  </input-comp>
-  <br>
-  <button-comp visual="primary" id="button">SIGIENTE</button-comp>
- 
+  <form class="form">
+    <input type="email" class="form-control mb-3" placeholder="Ingresá tu email" name="usermail" />
+    <br>
+    <button class="btn btn-primary">SIGUIENTE</button>
+  </form>
   `;
-  const button = div.querySelector("#button") as HTMLElement;
 
+  const form = div.querySelector(".form");
+  form!.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const target = e.target as any;
 
-  button.addEventListener("click", () => {
-    console.log("RECIBIR EL EMAIL")
+    const data = new FormData(target);
+    const value = Object.fromEntries(data.entries());
+
+    const userEmail = value.usermail;
+    state.setEmail(userEmail)
     root.goTo("/password");
   });
 
