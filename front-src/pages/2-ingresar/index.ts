@@ -21,8 +21,7 @@ export function initPageIngresar(root) {
     const value = Object.fromEntries(data.entries());
 
     const userEmail = value.usermail;
-    state.setEmail(userEmail)
-    root.goTo("/password");
+    state.setEmail(userEmail, root)
   });
 
   return div;

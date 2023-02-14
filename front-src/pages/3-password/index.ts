@@ -1,26 +1,27 @@
-// import { state } from "../../state";
+import { state } from "../../state";
 
 export function initPagePassword(root) {
   const div = document.createElement("div");
   div.innerHTML = `
   <text-comp size="fs-1" weight="fw-bold">Ingresar</text-comp>
   <br>
-  <input-comp 
-  type="password" 
-  placeholder="Contraseña" 
-  name="password">
-  </input-comp>
-  <br>
-  <button-comp visual="primary" id="button">SIGIENTE</button-comp>
+  <form class="form">
+    <input type="password" class="form-control mb-3" placeholder="Ingresá tu password" name="password" />
+    <br>
+    <button class="btn btn-primary">SIGUIENTE</button>
+  </form>
  
   `;
-  const button = div.querySelector("#button") as HTMLElement;
+ 
+  const form = div.querySelector(".form");
+  form!.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const target = e.target as any;
 
+    const data = new FormData(target);
+    const value = Object.fromEntries(data.entries());
 
-  button.addEventListener("click", () => {
-    console.log("RECIBIR PASSWORD")
-    root.goTo("/");
-  });
-
-  return div;
+    const password = value.password;
+    state.setPassword(password, root)
+  return div})
 }
