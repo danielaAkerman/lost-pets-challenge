@@ -53,7 +53,7 @@ app.post("/auth", async (req, res) => {
     password: getSHA(password),
     user_id: user.dataValues.id,
   });
-  
+
   res.json(auth);
 });
 
@@ -67,12 +67,12 @@ app.post("/auth/token", async (req, res) => {
       password: passHash,
     },
   });
-  const token = jwt.sign({ id: auth.dataValues.user_id }, SECRET);
   // Si no hay registro de ese usuario y esa contraseña, devuelve null
   if (auth) {
+    const token = jwt.sign({ id: auth.dataValues.user_id }, SECRET);
     res.json({ token });
   } else {
-    res.status(401).json({ messaje: "not found" });
+    res.status(401).json({ message: "not found" });
   }
 });
 

@@ -10,9 +10,11 @@ export function initPagePassword(root) {
     <br>
     <button class="btn btn-primary">SIGUIENTE</button>
   </form>
+  <div class="alerta"></div>
  
   `;
 
+  const alerta = div.querySelector(".alerta");
   const form = div.querySelector(".form");
   form!.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -22,7 +24,7 @@ export function initPagePassword(root) {
     const value = Object.fromEntries(data.entries());
 
     const password = value.password;
-    state.getToken(password, root);
+    state.getToken(password, root, alerta);
   });
 
   return div;

@@ -4,7 +4,6 @@ export const state = {
   data: {
     email: "",
     fullname: "",
-    password: "",
     token: "",
   },
   listeners: [],
@@ -56,7 +55,7 @@ export const state = {
       });
   },
 
-  getToken(password, root) {
+  getToken(password, root, alerta) {
     // sing in - Ya sé el mail, el fullname, y ahora tmb la password
     const currentState = state.getState();
     const { email } = currentState;
@@ -72,9 +71,16 @@ export const state = {
         return res.json();
       })
       .then((data) => {
-        console.log("Se hizo sign-in:", data);
-        currentState.token = data.token;
-        this.setState(currentState);
+        if (data.message) {
+          console.log("ERROR", data);
+          alerta.innerHTML="ERROR: password inválida"
+          this.setState(currentState);
+        } else if (data.token) {
+          console.log("Se hizo sign-in:", data);
+          alerta.innerHTML=""
+          currentState.token = data.token;
+          this.setState(currentState);
+        }
       });
   },
 
@@ -99,5 +105,4 @@ export const state = {
         // root.goTo(route);
       });
   },
-
 };
