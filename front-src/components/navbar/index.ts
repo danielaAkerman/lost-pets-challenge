@@ -36,15 +36,15 @@ customElements.define(
           <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
               <li class="nav-item">
-                <div class="nav-link" style="cursor: pointer" id="datos">Mis datos</div>
+                <div class="nav-link" style="cursor: pointer" id="mis-datos">Mis datos</div>
               </li>
               <li class="nav-item">
-                <div class="nav-link" style="cursor: pointer">
+                <div class="nav-link" style="cursor: pointer" id="mis-mascotas">
                   Mis mascotas reportadas
                 </div>
               </li>
               <li class="nav-item">
-                <div class="nav-link" style="cursor: pointer">
+                <div class="nav-link" style="cursor: pointer" id="reportar-datos">
                   Reportar mascotas
                 </div>
               </li>
@@ -59,11 +59,21 @@ customElements.define(
       </div>
     </nav>`;
 
-      // const datos = this.querySelector("#datos");
-      // datos!.addEventListener("click", (e) => console.log("CLICK EN DATOS"));
 
 
-      
+
+      const datos = this.querySelector("#mis-datos");
+      datos!.addEventListener("click", (e) => {
+        console.log("A mis datos")
+      });
+      const mascotas = this.querySelector("#mis-mascotas");
+      mascotas!.addEventListener("click", (e) => {
+        console.log("A mis mascotas perdidas")
+      });
+      const reportar = this.querySelector("#reportar-datos");
+      reportar!.addEventListener("click", (e) => {
+        console.log("A reportar")
+      });
     }
   }
 );

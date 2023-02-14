@@ -12,7 +12,7 @@ export function initPagePassword(root) {
   </form>
  
   `;
- 
+
   const form = div.querySelector(".form");
   form!.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -22,6 +22,8 @@ export function initPagePassword(root) {
     const value = Object.fromEntries(data.entries());
 
     const password = value.password;
-    state.setPassword(password, root)
-  return div})
+    state.getToken(password, root);
+  });
+
+  return div;
 }

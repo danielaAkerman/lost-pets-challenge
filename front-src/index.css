@@ -24,6 +24,14 @@
   align-items: center;
   justify-content: center;
   /* background-color: #f7f89b; */
+}
 
+input,
+textarea, div {
+  background: none;
+  width: 100%;
+}
 
+.root button {
+  width: 100%;
 }

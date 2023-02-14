@@ -11,7 +11,7 @@ customElements.define(
       const weight = this.getAttribute("weight") || ""; // fw-bold, fw-normal
 
       this.innerHTML = `
-        <p class="${size} ${weight}">${text}</p>
+        <p class="${size} ${weight} text-center">${text}</p>
         `;
     }
   }

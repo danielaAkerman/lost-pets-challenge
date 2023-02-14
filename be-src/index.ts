@@ -3,6 +3,7 @@ import * as path from "path";
 import * as crypto from "crypto";
 import * as jwt from "jsonwebtoken";
 import * as process from "process";
+import * as cors from "cors";
 import { User, Pet, Auth, Report } from "./models";
 // import {
 //   updateProfile,
@@ -15,6 +16,7 @@ import { User, Pet, Auth, Report } from "./models";
 const port = process.env.PORT;
 const app = express();
 app.use(express.json({ limit: "50mb" }));
+app.use(cors());
 
 const SECRET = process.env.SECRET;
 const staticDirPath = path.resolve(__dirname, "../front-dist");
@@ -35,33 +37,23 @@ app.post("/check-email", async (req, res) => {
   const foundUser = await User.findOne({
     where: { email },
   });
-  res.json(foundUser);
+  res.json(foundUser); // Si no existe devuelve null
 });
 
 // signUp
 app.post("/auth", async (req, res) => {
   const { email, fullname, password } = req.body;
-  const [user, created] = await User.findOrCreate({
-    where: {
-      email,
-    },
-    defaults: {
-      email,
-      fullname,
-    },
+  const user = await User.create({
+    email,
+    fullname,
   });
 
-  const [auth, authCreated] = await Auth.findOrCreate({
-    where: {
-      user_id: user.dataValues.id,
-    },
-    defaults: {
-      email,
-      password: getSHA(password),
-      user_id: user.dataValues.id,
-    },
+  const auth = await Auth.create({
+    email,
+    password: getSHA(password),
+    user_id: user.dataValues.id,
   });
-  console.log({ authCreated, auth });
+  
   res.json(auth);
 });
 
