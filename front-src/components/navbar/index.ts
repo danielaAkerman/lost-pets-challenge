@@ -1,3 +1,9 @@
+import { initRouter } from "../../router";
+import { state } from "../../state";
+import { initPageDatos } from "../../pages/4-mis-datos";
+import { initPageReport } from "../../pages/5-reportar";
+import { initPageMascotas } from "../../pages/7-mis-mascotas";
+
 customElements.define(
   "nav-comp",
   class extends HTMLElement {
@@ -59,20 +65,37 @@ customElements.define(
       </div>
     </nav>`;
 
-
-
+      const root = document.querySelector(".root") as HTMLElement;
+      // initRouter(root);
 
       const datos = this.querySelector("#mis-datos");
       datos!.addEventListener("click", (e) => {
-        console.log("A mis datos")
+        console.log("A mis datos");
+        history.pushState({}, "", "/mis-datos");
+        if (root.firstChild) {
+          root.firstChild.remove();
+        }
+        root.appendChild(initPageDatos(root));
       });
+
       const mascotas = this.querySelector("#mis-mascotas");
       mascotas!.addEventListener("click", (e) => {
-        console.log("A mis mascotas perdidas")
+        console.log("A mis mascotas perdidas");
+        history.pushState({}, "", "/mis-mascotas");
+        if (root.firstChild) {
+          root.firstChild.remove();
+        }
+        root.appendChild(initPageMascotas(root));
       });
+
       const reportar = this.querySelector("#reportar-datos");
       reportar!.addEventListener("click", (e) => {
-        console.log("A reportar")
+        console.log("A reportar");
+        history.pushState({}, "", "/reportar");
+        if (root.firstChild) {
+          root.firstChild.remove();
+        }
+        root.appendChild(initPageReport(root));
       });
     }
   }
