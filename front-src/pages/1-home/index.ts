@@ -15,7 +15,13 @@ export function initPageHome(root) {
   const container = div.querySelector(".autorizacion-container") as HTMLElement;
 
   button.addEventListener("click", () => {
-    console.log("SE OBTIENE LA UBICACION");
+    navigator.geolocation.getCurrentPosition((e) => {
+      const lat = e.coords.latitude as any;
+      const lng = e.coords.longitude as any;
+      // localStorage.setItem("lng", lng);
+      // localStorage.setItem("lat", lat);
+      console.log("SE OBTIENE LA UBICACION", lat, lng);
+  });
     container.innerHTML = `
     <template id="result-item-template">
     <card-comp class="card-comp"
