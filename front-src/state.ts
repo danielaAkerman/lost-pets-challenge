@@ -112,4 +112,16 @@ export const state = {
     state.setState(currentState);
     console.log(currentState);
   },
+
+  mostrarMascotasCercaTuyo(root, contenedor, template) {
+    const currentState = state.getState();
+    const { lat, lng } = currentState.ubication;
+    fetch(url + "/pets-near-me" + "?lat=" + lat + "&lng=" + lng)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  },
 };
