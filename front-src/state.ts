@@ -120,8 +120,31 @@ export const state = {
       .then((res) => {
         return res.json();
       })
-      .then((data) => {
-        console.log(data);
+      .then((results) => {
+        console.log(results);
+
+        contenedor.replaceChildren();
+
+        for (const r of results) {
+          const foto = template.content.querySelector(".card-img-top");
+          foto.src =
+            "https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80";
+          // foto.src = r.thumbnail;
+
+          const nombre = template.content.querySelector(".card-title");
+          nombre.textContent = r.name;
+
+          const ubicacion = template.content.querySelector(".card-text");
+          ubicacion.textContent = "Córdoba";
+
+          const tituloModal = template.content.querySelector(".modal-title");
+          tituloModal.textContent = "Informanos sobre" + r.name;
+
+          const clone = document.importNode(template.content, true);
+
+          contenedor.appendChild(clone);
+        }
       });
   },
+  
 };
