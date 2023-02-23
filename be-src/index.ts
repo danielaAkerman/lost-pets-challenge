@@ -95,8 +95,8 @@ app.get("/me", authMiddleware, async (req, res) => {
   res.json(foundUser);
 });
 
-app.post("/pet", async (req, res) => {
-  const { name, last_location_lat, last_location_lng, status } = req.body;
+app.post("/new-pet", async (req, res) => {
+  // const { name, last_location_lat, last_location_lng, status } = req.body;
 
   const newPet = await Pet.create(req.body);
 
@@ -109,7 +109,24 @@ app.post("/pet", async (req, res) => {
       lng: newPet.get("last_location_lng"),
     },
   });
-  res.json({ newPet });
+  res.json(newPet);
+});
+
+app.post("/new-report", async (req, res) => {
+  // const { reporter, phone_number, message, pet_id } = req.body;
+
+  const newReport = await Report.create(req.body);
+  res.json(newReport);
+});
+
+app.get("/report/:pet_id", async (req, res) => {
+  const { pet_id } = req.params;
+  const reports = await Report.findAll({
+    where: {
+      pet_id,
+    },
+  });
+  res.json(reports);
 });
 
 app.use(express.static(staticDirPath));
