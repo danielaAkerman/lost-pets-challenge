@@ -150,10 +150,40 @@ function bodyToIndex(body, id) {
 app.put("/edit-pet/:id", async (req, res) => {
   const { id } = req.params;
   const editedPet = await Pet.update(req.body, { where: { id } });
-
-  const indexItem = bodyToIndex(req.body, id);
-  const algoliaRes = await index.partialUpdateObject(indexItem);
+  if (
+    req.body.name ||
+    req.body.status ||
+    (req.body.last_location_lat && req.body.last_location_lng)
+  ) {
+    const indexItem = bodyToIndex(req.body, id);
+    const algoliaRes = await index.partialUpdateObject(indexItem);
+  }
   res.json(editedPet);
+});
+
+app.get("/pets", async (req, res) => {
+  const pets = await Pet.findAll();
+  res.json(pets);
+});
+
+app.get("/my-pets/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const pets = await Pet.findAll({ where: { userId } });
+  res.json(pets);
+});
+
+app.get("/users", async (req, res) => {
+  const users = await User.findAll();
+  res.json(users);
+});
+
+app.get("/pets-near-me", async (req, res) => {
+  const { lat, lng } = req.query;
+  const { hits } = await index.search("", {
+    aroundLatLng: [lat, lng].join(","),
+    aroundRadius: 3000,
+  });
+  res.json(hits);
 });
 
 app.use(express.static(staticDirPath));
