@@ -5,6 +5,7 @@ import * as jwt from "jsonwebtoken";
 import * as process from "process";
 import * as cors from "cors";
 import { User, Pet, Auth, Report } from "./models";
+import { index } from "./lib/algolia";
 // import {
 //   updateProfile,
 //   getProfile,
@@ -27,9 +28,9 @@ function getSHA(text: string) {
 
 // LA RECEPCIÓN DE LOS DATOS (body, params, etc) SE CHEQUEA EN ESTA INSTANCIA
 
-app.get("/environment", (req, res) => {
-  res.json({ message: process.env.environment });
-});
+// app.get("/environment", (req, res) => {
+//   res.json({ message: process.env.environment });
+// });
 
 // ver si existe un mail
 app.post("/check-email", async (req, res) => {
@@ -92,6 +93,23 @@ app.get("/me", authMiddleware, async (req, res) => {
   // const foundUser = await User.findOne({ where: { id: foundId } });
   const foundUser = await User.findByPk(req._user.id);
   res.json(foundUser);
+});
+
+app.post("/pet", async (req, res) => {
+  const { name, last_location_lat, last_location_lng, status } = req.body;
+
+  const newPet = await Pet.create(req.body);
+
+  const algoliaRes = await index.saveObject({
+    objectID: newPet.get("id"),
+    name: newPet.get("name"),
+    status: newPet.get("status"),
+    _geoloc: {
+      lat: newPet.get("last_location_lat"),
+      lng: newPet.get("last_location_lng"),
+    },
+  });
+  res.json({ newPet });
 });
 
 app.use(express.static(staticDirPath));

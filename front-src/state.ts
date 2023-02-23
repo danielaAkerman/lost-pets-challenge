@@ -5,6 +5,7 @@ export const state = {
     email: "",
     fullname: "",
     token: "",
+    ubication: {},
   },
   listeners: [],
 
@@ -73,11 +74,11 @@ export const state = {
       .then((data) => {
         if (data.message) {
           console.log("ERROR", data);
-          alerta.innerHTML="ERROR: password inválida"
+          alerta.innerHTML = "ERROR: password inválida";
           this.setState(currentState);
         } else if (data.token) {
           console.log("Se hizo sign-in:", data);
-          alerta.innerHTML=""
+          alerta.innerHTML = "";
           currentState.token = data.token;
           this.setState(currentState);
         }
@@ -104,5 +105,11 @@ export const state = {
         console.log("Se autenticó user:", data);
         // root.goTo(route);
       });
+  },
+  setUbication(ubication) {
+    const currentState = state.getState();
+    currentState.ubication = ubication;
+    state.setState(currentState);
+    console.log(currentState);
   },
 };

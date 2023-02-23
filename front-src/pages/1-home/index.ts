@@ -1,4 +1,4 @@
-// import { state } from "../../state";
+import { state } from "../../state";
 
 export function initPageHome(root) {
   const div = document.createElement("div");
@@ -16,12 +16,15 @@ export function initPageHome(root) {
 
   button.addEventListener("click", () => {
     navigator.geolocation.getCurrentPosition((e) => {
-      const lat = e.coords.latitude as any;
-      const lng = e.coords.longitude as any;
+      const ubication = {
+        lat: e.coords.latitude as any,
+        lng: e.coords.longitude as any,
+      };
+      state.setUbication(ubication);
       // localStorage.setItem("lng", lng);
       // localStorage.setItem("lat", lat);
-      console.log("SE OBTIENE LA UBICACION", lat, lng);
-  });
+
+    });
     container.innerHTML = `
     <template id="result-item-template">
     <card-comp class="card-comp"

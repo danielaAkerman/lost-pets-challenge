@@ -3,22 +3,15 @@
 export function initPageEditar(root) {
   const div = document.createElement("div");
   div.innerHTML = `
-  <text-comp size="fs-1" weight="fw-bold">HOLISHHHH hola como estas?</text-comp>
-  <text-comp size="fs-4" weight="fw-bold">HOLISHHHH hola como estas?</text-comp>
-  <text-comp size="fs-1" weight="fw-normal">HOLISHHHH hola como estas?</text-comp>
-  <text-comp size="fs-4" weight="fw-normal">HOLISHHHH hola como estas?</text-comp>
-  <text-comp weight="fw-normal">HOLISHHHH hola como estas?</text-comp>
-  <text-comp weight="fw-normal">HOLISHHHH hola como estas?</text-comp>
-  <button-comp visual="link" id="button">HOLA</button-comp>
-  <button-comp visual="primary" id="button">HOLA</button-comp>
+  <form class="search-form">
+    <input name="q" type="search" />
+    <button class="button btn btn-success">Buscar</button>
+  </form>
+  <div id="map" style="width: 100%; height: 100%"></div>
+   
  
   `;
-  const button = div.querySelector("#button") as HTMLElement;
 
-
-  button.addEventListener("click", () => {
-    root.goTo("/2");
-  });
 
 //   const style = document.createElement("style");
 //   style.textContent = ``;
