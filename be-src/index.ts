@@ -119,7 +119,7 @@ app.post("/new-report", async (req, res) => {
   res.json(newReport);
 });
 
-app.get("/report/:pet_id", async (req, res) => {
+app.get("/reports/:pet_id", async (req, res) => {
   const { pet_id } = req.params;
   const reports = await Report.findAll({
     where: {
@@ -127,6 +127,33 @@ app.get("/report/:pet_id", async (req, res) => {
     },
   });
   res.json(reports);
+});
+
+function bodyToIndex(body, id) {
+  const respuesta: any = {};
+  respuesta.objectID = id;
+  if (body.name) {
+    respuesta.name = body.name;
+  }
+  if (body.status) {
+    respuesta.status = body.status;
+  }
+  if (body.last_location_lat && body.last_location_lng) {
+    respuesta._geoloc = {
+      lat: body.last_location_lat,
+      lng: body.last_location_lng,
+    };
+  }
+  return respuesta;
+}
+
+app.put("/edit-pet/:id", async (req, res) => {
+  const { id } = req.params;
+  const editedPet = await Pet.update(req.body, { where: { id } });
+
+  const indexItem = bodyToIndex(req.body, id);
+  const algoliaRes = await index.partialUpdateObject(indexItem);
+  res.json(editedPet);
 });
 
 app.use(express.static(staticDirPath));
