@@ -133,10 +133,10 @@ export const state = {
           console.log(r);
 
           const pet_id = template.content.querySelector(".selected_pet");
-          pet_id.setAttribute("pet_id", r.objectID);
+          pet_id.setAttribute("data-bs-pet_id", r.objectID);
 
           const pet_name = template.content.querySelector(".selected_pet");
-          pet_name.setAttribute("pet_name", r.name);
+          pet_name.setAttribute("data-bs-pet_name", r.name);
 
           const foto = template.content.querySelector(".card-img-top");
           foto.src =
@@ -146,8 +146,8 @@ export const state = {
           const nombre = template.content.querySelector(".card-title");
           nombre.textContent = r.name;
 
-          const tituloModal = template.content.querySelector(".modal-title");
-          tituloModal.textContent = pet_name.getAttribute("pet_name");
+          // const tituloModal = modal.content.querySelector(".modal-title");
+          // tituloModal.textContent = pet_name.getAttribute("pet_name");
 
           const ubicacion = template.content.querySelector(".card-text");
           ubicacion.textContent = "Córdoba";

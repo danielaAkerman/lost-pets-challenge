@@ -9,6 +9,10 @@ import { initPageWelcome } from "./pages/1-welcome";
 
 const routes = [
   {
+    path: /\//,
+    handler: initPageUbication,
+  },
+  {
     path: /\/ubication/,
     handler: initPageUbication,
   },
