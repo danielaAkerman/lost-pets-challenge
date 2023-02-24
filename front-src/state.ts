@@ -117,16 +117,16 @@ export const state = {
     const currentState = state.getState();
     const lat = currentState.ubication.lat;
     const lng = currentState.ubication.lng;
-    console.log("La lat es", lat)
-    console.log("La lng es", lng)
-    console.log(currentState.ubication)
+    console.log("La lat es", lat);
+    console.log("La lng es", lng);
+    console.log(currentState.ubication);
     fetch(url + "/pets-near-me" + "?lat=" + lat + "&lng=" + lng)
       .then((res) => {
         return res.json();
       })
       .then((results) => {
         console.log(results);
-
+        console.log(contenedor);
         contenedor.replaceChildren();
 
         for (const r of results) {
@@ -145,13 +145,12 @@ export const state = {
           pet_id.setAttribute("pet_id", r.objectID);
 
           const tituloModal = template.content.querySelector(".modal-title");
-          tituloModal.textContent = "Informanos sobre" + r.name;
+          tituloModal.textContent = "Informanos sobre " + r.name;
 
           const clone = document.importNode(template.content, true);
 
           contenedor.appendChild(clone);
         }
-
       });
   },
 

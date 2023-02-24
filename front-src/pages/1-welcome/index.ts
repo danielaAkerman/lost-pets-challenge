@@ -59,8 +59,9 @@ export function initPageWelcome(root) {
 
 </template>
   `;
-  const contenedor = document.querySelector(".results");
-  const template = document.querySelector("#template");
+  const contenedor = div.querySelector(".results");
+
+  const template = div.querySelector("#template");
 
   state.mostrarMascotasCercaTuyo(root, contenedor, template);
 
@@ -78,6 +79,8 @@ export function initPageWelcome(root) {
         const data = new FormData(target);
         const value = Object.fromEntries(data.entries());
 
+        console.log("objeto VALUE", value);
+
         const visto: any = {};
 
         visto.reporter = value.name;
@@ -90,7 +93,8 @@ export function initPageWelcome(root) {
 
         visto.pet_id = pet_id;
 
-        state.setReporte(visto);
+        console.log("objeto VISTO", visto);
+        // state.setReporte(visto);
       });
     }
   }, 1000);
