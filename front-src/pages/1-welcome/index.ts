@@ -10,12 +10,12 @@ export function initPageWelcome(root) {
 
   <template id="template">
 
-    <div class="card" style="width: 18rem;">
+    <div class="card mb-3" style="width: 18rem;">
       <img src="" class="card-img-top" alt="...">
       <div class="card-body">
-        <h5 class="card-title">Bobby</h5>
-        <p class="card-text">Córdoba</p>
-        <button class="btn btn-warning selected_pet" data-bs-toggle="modal" data-bs-target="#exampleModal" pet_id="">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <button class="btn btn-warning selected_pet" data-bs-toggle="modal" data-bs-target="#exampleModal" pet_id="" pet_name="">
           ¿Lo viste?
         </button>
       </div>
@@ -29,22 +29,26 @@ export function initPageWelcome(root) {
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          
+        
+
+
 
           <form class="form">
 
             <div class="mb-3">
               <label for="name" class="form-label">Tu nombre:</label>
-              <input class="form-control" id="name" placeholder="Ingresá tu nombre">
+              <input class="form-control name" id="name" placeholder="Ingresá tu nombre">
             </div>
 
             <div class="mb-3">
               <label for="telefono" class="form-label">Tu teléfono:</label>
-              <input class="form-control" id="telefono" placeholder="Ingresá tu teléfono">
+              <input class="form-control telefono" id="telefono" placeholder="Ingresá tu teléfono">
             </div>
 
             <div class="mb-3">
               <label for="mensaje" class="form-label">¿Dónde lo viste?</label>
-              <textarea class="form-control" id="mensaje" rows="3"></textarea>
+              <textarea class="form-control mensaje" id="mensaje" rows="3"></textarea>
             </div>
 
             <button type="submit" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">Enviar</button>
@@ -74,6 +78,7 @@ export function initPageWelcome(root) {
       const form = div.querySelector(".form");
       form!.addEventListener("submit", (e) => {
         e.preventDefault();
+        console.log(form)
 
         const target = e.target as any;
         const data = new FormData(target);
@@ -83,9 +88,9 @@ export function initPageWelcome(root) {
 
         const visto: any = {};
 
-        visto.reporter = value.name;
-        visto.phone_number = value.telefono;
-        visto.message = value.mensaje;
+        // visto.reporter = div.querySelector(".name")!.value
+        // visto.phone_number = div.querySelector(".telefono").value
+        // visto.message = div.querySelector(".mensaje").value
 
         const pet_id = div
           .querySelector(".selected_pet")

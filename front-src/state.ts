@@ -129,7 +129,15 @@ export const state = {
         console.log(contenedor);
         contenedor.replaceChildren();
 
-        for (const r of results) {
+        for (let r of results) {
+          console.log(r);
+
+          const pet_id = template.content.querySelector(".selected_pet");
+          pet_id.setAttribute("pet_id", r.objectID);
+
+          const pet_name = template.content.querySelector(".selected_pet");
+          pet_name.setAttribute("pet_name", r.name);
+
           const foto = template.content.querySelector(".card-img-top");
           foto.src =
             "https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80";
@@ -138,14 +146,11 @@ export const state = {
           const nombre = template.content.querySelector(".card-title");
           nombre.textContent = r.name;
 
+          const tituloModal = template.content.querySelector(".modal-title");
+          tituloModal.textContent = pet_name.getAttribute("pet_name");
+
           const ubicacion = template.content.querySelector(".card-text");
           ubicacion.textContent = "Córdoba";
-
-          const pet_id = template.content.querySelector(".selected_pet");
-          pet_id.setAttribute("pet_id", r.objectID);
-
-          const tituloModal = template.content.querySelector(".modal-title");
-          tituloModal.textContent = "Informanos sobre " + r.name;
 
           const clone = document.importNode(template.content, true);
 
