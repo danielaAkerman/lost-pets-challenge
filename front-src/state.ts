@@ -106,7 +106,7 @@ export const state = {
         // root.goTo(route);
       });
   },
-  setUbication(ubication) {
+  setMyUbication(ubication) {
     const currentState = state.getState();
     currentState.ubication = ubication;
     state.setState(currentState);
@@ -115,7 +115,11 @@ export const state = {
 
   mostrarMascotasCercaTuyo(root, contenedor, template) {
     const currentState = state.getState();
-    const { lat, lng } = currentState.ubication;
+    const lat = currentState.ubication.lat;
+    const lng = currentState.ubication.lng;
+    console.log("La lat es", lat)
+    console.log("La lng es", lng)
+    console.log(currentState.ubication)
     fetch(url + "/pets-near-me" + "?lat=" + lat + "&lng=" + lng)
       .then((res) => {
         return res.json();
@@ -137,6 +141,9 @@ export const state = {
           const ubicacion = template.content.querySelector(".card-text");
           ubicacion.textContent = "Córdoba";
 
+          const pet_id = template.content.querySelector(".selected_pet");
+          pet_id.setAttribute("pet_id", r.objectID);
+
           const tituloModal = template.content.querySelector(".modal-title");
           tituloModal.textContent = "Informanos sobre" + r.name;
 
@@ -144,7 +151,24 @@ export const state = {
 
           contenedor.appendChild(clone);
         }
+
       });
   },
-  
+
+  setReporte(reporte) {
+    console.log("A reportar mascota vista!", reporte);
+    fetch(url + "/new-report", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(reporte),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Se realizó el reporte");
+      });
+  },
 };

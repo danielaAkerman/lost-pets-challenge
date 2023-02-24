@@ -6,12 +6,17 @@
   text-align: center;
 }
  */
-/* body {
+body {
   margin: 0;
-  background-color: #071624;
+  background-color: #fff5da;
   padding: 10px;
   height: 100vh;
-} */
+}
+/* 
+HEX : #fff5da
+RGB : 255, 245, 218
+HSL  : 43, 100%, 92%
+*/
 
 .root {
   width: 100%;

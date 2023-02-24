@@ -15,7 +15,9 @@ export function initPageWelcome(root) {
       <div class="card-body">
         <h5 class="card-title">Bobby</h5>
         <p class="card-text">Córdoba</p>
-        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">¿Lo viste?</button>
+        <button class="btn btn-warning selected_pet" data-bs-toggle="modal" data-bs-target="#exampleModal" pet_id="">
+          ¿Lo viste?
+        </button>
       </div>
     </div>
 
@@ -45,7 +47,8 @@ export function initPageWelcome(root) {
               <textarea class="form-control" id="mensaje" rows="3"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary mb-3">Enviar</button>
+            <button type="submit" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">Enviar</button>
+        
 
           </form>
           
@@ -60,6 +63,37 @@ export function initPageWelcome(root) {
   const template = document.querySelector("#template");
 
   state.mostrarMascotasCercaTuyo(root, contenedor, template);
+
+  let counterB = 2;
+  const intervalId = setInterval(() => {
+    counterB--;
+    if (counterB < 0) {
+      clearInterval(intervalId);
+
+      const form = div.querySelector(".form");
+      form!.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const target = e.target as any;
+        const data = new FormData(target);
+        const value = Object.fromEntries(data.entries());
+
+        const visto: any = {};
+
+        visto.reporter = value.name;
+        visto.phone_number = value.telefono;
+        visto.message = value.mensaje;
+
+        const pet_id = div
+          .querySelector(".selected_pet")
+          ?.getAttribute("pet_id");
+
+        visto.pet_id = pet_id;
+
+        state.setReporte(visto);
+      });
+    }
+  }, 1000);
 
   return div;
 }
