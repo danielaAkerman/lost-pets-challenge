@@ -1,6 +1,5 @@
 import { initRouter } from "../../router";
 import { state } from "../../state";
-const icon = require("../../assets/img/burger.svg");
 // import { initPageDatos } from "../../pages/4-mis-datos";
 // import { initPageReport } from "../../pages/5-reportar";
 // import { initPageMascotas } from "../../pages/7-mis-mascotas";
