@@ -146,9 +146,6 @@ export const state = {
           const nombre = template.content.querySelector(".card-title");
           nombre.textContent = r.name;
 
-          // const tituloModal = modal.content.querySelector(".modal-title");
-          // tituloModal.textContent = pet_name.getAttribute("pet_name");
-
           const ubicacion = template.content.querySelector(".card-text");
           ubicacion.textContent = "Córdoba";
 
