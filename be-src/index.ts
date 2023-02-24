@@ -116,7 +116,7 @@ app.post("/new-report", async (req, res) => {
   // const { reporter, phone_number, message, pet_id } = req.body;
 
   const newReport = await Report.create(req.body);
-  res.json(newReport);
+  res.json({ message: "Reporte enviado" });
 });
 
 app.get("/reports/:pet_id", async (req, res) => {

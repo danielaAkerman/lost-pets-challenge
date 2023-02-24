@@ -1,5 +1,6 @@
 import { initRouter } from "../../router";
 import { state } from "../../state";
+const icon = require("../../assets/img/burger.svg");
 // import { initPageDatos } from "../../pages/4-mis-datos";
 // import { initPageReport } from "../../pages/5-reportar";
 // import { initPageMascotas } from "../../pages/7-mis-mascotas";
@@ -16,47 +17,50 @@ customElements.define(
     <nav class="navbar fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Lost Pets</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasDarkNavbar"
-          aria-controls="offcanvasDarkNavbar"
-        >
-          <span class="navbar-toggler-icon">
-            <img src="../../assets/img/burger.svg">
-          </span>
-        </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
         <div
-          class="offcanvas offcanvas-end text-bg-dark"
+          class="offcanvas offcanvas-end"
           tabindex="-1"
-          id="offcanvasDarkNavbar"
-          aria-labelledby="offcanvasDarkNavbarLabel"
+          id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel"
         >
           <div class="offcanvas-header">
             <button
               type="button"
-              class="btn-close btn-close-white"
+              class="btn-close"
               data-bs-dismiss="offcanvas"
               aria-label="Close"
             ></button>
           </div>
           <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-              <li class="nav-item">
+              <li class="nav-item"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+              >
                 <div class="nav-link" style="cursor: pointer" id="mis-datos">Mis datos</div>
               </li>
-              <li class="nav-item">
+              <li class="nav-item"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+              >
                 <div class="nav-link" style="cursor: pointer" id="mis-mascotas">
                   Mis mascotas reportadas
                 </div>
               </li>
-              <li class="nav-item">
+              <li class="nav-item"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+              >
                 <div class="nav-link" style="cursor: pointer" id="reportar-datos">
                   Reportar mascotas
                 </div>
               </li>
-              <li class="nav-item">
+              <li class="nav-item"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close">
                 <div class="nav-link" style="cursor: pointer">
                   Cerrar sesión
                 </div>

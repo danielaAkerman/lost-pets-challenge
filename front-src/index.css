@@ -31,7 +31,7 @@ HSL  : 43, 100%, 92%
   /* background-color: #f7f89b; */
 }
 
-.container{
+.container {
   max-width: 590px;
   display: flex;
   flex-direction: column;
@@ -39,7 +39,7 @@ HSL  : 43, 100%, 92%
   justify-content: space-between;
 }
 
-.results{
+.results {
   max-width: 100%;
   display: flex;
   flex-direction: column;
@@ -48,11 +48,12 @@ HSL  : 43, 100%, 92%
 }
 
 input,
-textarea, div {
+textarea,
+div {
   background: none;
   width: 100%;
 }
 
-.root button {
-  width: 100%;
+.navbar-toggler {
+  border: none !important;
 }

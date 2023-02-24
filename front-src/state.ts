@@ -15,7 +15,6 @@ export const state = {
 
   setState(newState) {
     this.data = newState;
-    console.log("State:", this.data);
 
     for (const call of this.listeners) {
       call(newState);
@@ -110,28 +109,19 @@ export const state = {
     const currentState = state.getState();
     currentState.ubication = ubication;
     state.setState(currentState);
-    console.log(currentState);
   },
 
   mostrarMascotasCercaTuyo(root, contenedor, template) {
     const currentState = state.getState();
-    const lat = currentState.ubication.lat;
-    const lng = currentState.ubication.lng;
-    console.log("La lat es", lat);
-    console.log("La lng es", lng);
-    console.log(currentState.ubication);
+    const { lat, lng } = currentState.ubication;
     fetch(url + "/pets-near-me" + "?lat=" + lat + "&lng=" + lng)
       .then((res) => {
         return res.json();
       })
       .then((results) => {
-        console.log(results);
-        console.log(contenedor);
         contenedor.replaceChildren();
 
         for (let r of results) {
-          console.log(r);
-
           const pet_id = template.content.querySelector(".selected_pet");
           pet_id.setAttribute("data-bs-pet_id", r.objectID);
 
@@ -157,7 +147,6 @@ export const state = {
   },
 
   setReporte(reporte) {
-    console.log("A reportar mascota vista!", reporte);
     fetch(url + "/new-report", {
       method: "post",
       headers: {
@@ -169,7 +158,7 @@ export const state = {
         return res.json();
       })
       .then((data) => {
-        console.log("Se realizó el reporte");
+        console.log(data.message);
       });
   },
 };

@@ -1,11 +1,6 @@
 import { initPageUbication } from "./pages/0-ubication";
 import { initPageWelcome } from "./pages/1-welcome";
-// import { initPageIngresar } from "./pages/2-ingresar";
-// import { initPagePassword } from "./pages/3-password";
-// import { initPageDatos } from "./pages/4-mis-datos";
-// import { initPageReport } from "./pages/5-reportar";
-// import { initPageEditar } from "./pages/6-editar";
-// import { initPageMascotas } from "./pages/7-mis-mascotas";
+import { initPageSignUp } from "./pages/2a-signup";
 
 const routes = [
   {
@@ -20,30 +15,10 @@ const routes = [
     path: /\/welcome/,
     handler: initPageWelcome,
   },
-  // {
-  //   path: /\/reportar/,
-  //   handler: initPageReport,
-  // },
-  // {
-  //   path: /\/ingresar/,
-  //   handler: initPageIngresar,
-  // },
-  // {
-  //   path: /\/password/,
-  //   handler: initPagePassword,
-  // },
-  // {
-  //   path: /\/mis-datos/,
-  //   handler: initPageDatos,
-  // },
-  // {
-  //   path: /\/editar/,
-  //   handler: initPageEditar,
-  // },
-  // {
-  //   path: /\/mis-mascotas/,
-  //   handler: initPageMascotas,
-  // },
+  {
+    path: /\/signup/,
+    handler: initPageSignUp,
+  },
 ];
 
 export function initRouter(container: Element) {
