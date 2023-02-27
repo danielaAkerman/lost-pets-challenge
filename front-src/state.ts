@@ -161,4 +161,6 @@ export const state = {
         console.log(data.message);
       });
   },
+
+  mostrarMisMascotas(root, contenedor, template) {},
 };

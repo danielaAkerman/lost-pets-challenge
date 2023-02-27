@@ -77,7 +77,7 @@ customElements.define(
 
       const brand = this.querySelector(".navbar-brand");
       brand!.addEventListener("click", (e) => {
-        console.log("A inicio");
+        // console.log("A inicio");
         history.pushState({}, "", "/welcome");
         if (root.firstChild) {
           root.firstChild.remove();
@@ -87,7 +87,7 @@ customElements.define(
 
       const datos = this.querySelector("#mis-datos");
       datos!.addEventListener("click", (e) => {
-        console.log("A mis datos");
+        // console.log("A mis datos");
         history.pushState({}, "", "/mis-datos");
         if (root.firstChild) {
           root.firstChild.remove();
@@ -97,7 +97,7 @@ customElements.define(
 
       const mascotas = this.querySelector("#mis-mascotas");
       mascotas!.addEventListener("click", (e) => {
-        console.log("A mis mascotas perdidas");
+        // console.log("A mis mascotas perdidas");
         history.pushState({}, "", "/mis-mascotas");
         if (root.firstChild) {
           root.firstChild.remove();
@@ -107,7 +107,7 @@ customElements.define(
 
       const reportar = this.querySelector("#reportar-datos");
       reportar!.addEventListener("click", (e) => {
-        console.log("A reportar");
+        // console.log("A reportar");
         history.pushState({}, "", "/reportar");
         if (root.firstChild) {
           root.firstChild.remove();
