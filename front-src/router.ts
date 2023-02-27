@@ -1,6 +1,11 @@
 import { initPageUbication } from "./pages/0-ubication";
 import { initPageWelcome } from "./pages/1-welcome";
 import { initPageSignUp } from "./pages/2a-signup";
+import {initPageLogIn} from "./pages/2b-login";
+import {initPageMisDatos} from "./pages/2c-mis-datos";
+import {initPagePublicar} from "./pages/3a-publicar";
+import {initPageMisMascotas} from "./pages/3b-mis-mascotas";
+import {initPageEditarMascota} from "./pages/3c-editar-mascota";
 
 const routes = [
   {
@@ -18,6 +23,26 @@ const routes = [
   {
     path: /\/signup/,
     handler: initPageSignUp,
+  },
+  {
+    path: /\/login/,
+    handler: initPageLogIn,
+  },
+  {
+    path: /\/mis-datos/,
+    handler: initPageMisDatos,
+  },
+  {
+    path: /\/publicar-mascota/,
+    handler: initPagePublicar,
+  },
+  {
+    path: /\/mis-mascotas/,
+    handler: initPageMisMascotas,
+  },
+  {
+    path: /\/editar-mascota/,
+    handler: initPageEditarMascota,
   },
 ];
 

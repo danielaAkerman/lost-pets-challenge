@@ -61,3 +61,7 @@ div {
 .img-container {
   padding: 10px;
 }
+
+.offcanvas-header, .offcanvas-body{
+  background-color: #fff5da;
+}

@@ -1,8 +1,10 @@
 import { initRouter } from "../../router";
 import { state } from "../../state";
-// import { initPageDatos } from "../../pages/4-mis-datos";
-// import { initPageReport } from "../../pages/5-reportar";
-// import { initPageMascotas } from "../../pages/7-mis-mascotas";
+
+import {initPageMisDatos} from "../../pages/2c-mis-datos";
+import {initPageMisMascotas} from "../../pages/3b-mis-mascotas";
+import {initPagePublicar} from "../../pages/3a-publicar";
+import {initPageWelcome} from "../../pages/1-welcome";
 
 customElements.define(
   "nav-comp",
@@ -54,7 +56,7 @@ customElements.define(
               aria-label="Close"
               >
                 <div class="nav-link" style="cursor: pointer" id="reportar-datos">
-                  Reportar mascotas
+                  Publicar mascota perdida
                 </div>
               </li>
               <li class="nav-item"
@@ -73,35 +75,45 @@ customElements.define(
       const root = document.querySelector(".root") as HTMLElement;
       // initRouter(root);
 
-      // const datos = this.querySelector("#mis-datos");
-      // datos!.addEventListener("click", (e) => {
-      //   console.log("A mis datos");
-      //   history.pushState({}, "", "/mis-datos");
-      //   if (root.firstChild) {
-      //     root.firstChild.remove();
-      //   }
-      //   root.appendChild(initPageDatos(root));
-      // });
+      const brand = this.querySelector(".navbar-brand");
+      brand!.addEventListener("click", (e) => {
+        console.log("A inicio");
+        history.pushState({}, "", "/welcome");
+        if (root.firstChild) {
+          root.firstChild.remove();
+        }
+        root.appendChild(initPageWelcome(root));
+      });
 
-      // const mascotas = this.querySelector("#mis-mascotas");
-      // mascotas!.addEventListener("click", (e) => {
-      //   console.log("A mis mascotas perdidas");
-      //   history.pushState({}, "", "/mis-mascotas");
-      //   if (root.firstChild) {
-      //     root.firstChild.remove();
-      //   }
-      //   root.appendChild(initPageMascotas(root));
-      // });
+      const datos = this.querySelector("#mis-datos");
+      datos!.addEventListener("click", (e) => {
+        console.log("A mis datos");
+        history.pushState({}, "", "/mis-datos");
+        if (root.firstChild) {
+          root.firstChild.remove();
+        }
+        root.appendChild(initPageMisDatos(root));
+      });
 
-      // const reportar = this.querySelector("#reportar-datos");
-      // reportar!.addEventListener("click", (e) => {
-      //   console.log("A reportar");
-      //   history.pushState({}, "", "/reportar");
-      //   if (root.firstChild) {
-      //     root.firstChild.remove();
-      //   }
-      //   root.appendChild(initPageReport(root));
-      // });
+      const mascotas = this.querySelector("#mis-mascotas");
+      mascotas!.addEventListener("click", (e) => {
+        console.log("A mis mascotas perdidas");
+        history.pushState({}, "", "/mis-mascotas");
+        if (root.firstChild) {
+          root.firstChild.remove();
+        }
+        root.appendChild(initPageMisMascotas(root));
+      });
+
+      const reportar = this.querySelector("#reportar-datos");
+      reportar!.addEventListener("click", (e) => {
+        console.log("A reportar");
+        history.pushState({}, "", "/reportar");
+        if (root.firstChild) {
+          root.firstChild.remove();
+        }
+        root.appendChild(initPagePublicar(root));
+      });
     }
   }
 );
