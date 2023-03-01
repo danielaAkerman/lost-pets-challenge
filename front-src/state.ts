@@ -5,6 +5,7 @@ export const state = {
     email: "",
     fullname: "",
     token: "",
+    userId: "",
     ubication: {},
   },
   listeners: [],
@@ -16,7 +17,7 @@ export const state = {
   setState(newState) {
     this.data = newState;
 
-    console.log(this.data)
+    console.log(this.data);
 
     for (const call of this.listeners) {
       call(newState);
@@ -27,18 +28,21 @@ export const state = {
     const currentState = this.getState();
     const userToken = localStorage.getItem("token");
 
+    console.log(userToken);
+
     fetch(url + "/init/" + userToken, {})
       .then((res) => {
         return res.json();
       })
       .then((data) => {
-        const { email, fullname } = data;
+        const { id, email, fullname } = data;
 
+        currentState.userId = id;
         currentState.email = email;
         currentState.fullname = fullname;
         currentState.token = userToken;
 
-        state.setState(currentState)
+        state.setState(currentState);
       });
 
     currentState.token = userToken;
@@ -49,36 +53,6 @@ export const state = {
   subscribe(callback: (any) => any) {
     this.listeners.push(callback);
   },
-
-  // setEmail(email, root) {
-  //   const currentState = state.getState();
-  //   currentState.email = email;
-  //   // VER SI ESTE MAIL EXISTE
-
-  //   fetch(url + "/check-email", {
-  //     method: "post",
-  //     headers: {
-  //       "content-type": "application/json",
-  //     },
-  //     body: JSON.stringify({ email }),
-  //   })
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       if (data) {
-  //         // SI EXISTE REDIRIGIMOS A PASSWORD
-  //         currentState.fullname = data.fullname;
-  //         state.setState(currentState);
-  //         root.goTo("/password");
-  //       } else {
-  //         state.setState(currentState); // Igual guarda el mail
-  //         // SI NO EXISTE REDIRIGIMOS A MIS DATOS PARA PEDIRLE nombre, pass y repet pass
-  //         root.goTo("/mis-datos");
-  //       }
-  //     });
-  // },
 
   getToken(loginValues, root, alerta) {
     const currentState = state.getState();
@@ -135,6 +109,27 @@ export const state = {
         // root.goTo(route);
       });
   },
+
+  updateUser(values) {
+    const currentState = state.getState();
+
+    fetch(url + "/update-user/" + this.data.userId, {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then(() => {
+        currentState.email = values.email;
+        currentState.fullname = values.fullname;
+        console.log("DATOS ACTUALIZADOS");
+      });
+  },
+
   setMyUbication(ubication) {
     const currentState = state.getState();
     currentState.ubication = ubication;

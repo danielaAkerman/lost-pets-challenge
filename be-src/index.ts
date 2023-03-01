@@ -87,6 +87,13 @@ app.post("/auth/token", async (req, res) => {
   }
 });
 
+app.post("/update-user/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const updatedUser = await User.update(req.body, { where: { id } });
+  res.json(updatedUser);
+});
+
 async function authMiddleware(req, res, next) {
   const token = req.headers.authorization.split(" ")[1];
   try {
