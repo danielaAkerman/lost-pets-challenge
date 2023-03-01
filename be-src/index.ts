@@ -33,12 +33,22 @@ function getSHA(text: string) {
 // });
 
 // ver si existe un mail
-app.post("/check-email", async (req, res) => {
-  const { email } = req.body;
-  const foundUser = await User.findOne({
-    where: { email },
-  });
-  res.json(foundUser); // Si no existe devuelve null
+// app.post("/check-email", async (req, res) => {
+//   const { email } = req.body;
+//   const foundUser = await User.findOne({
+//     where: { email },
+//   });
+//   res.json(foundUser); // Si no existe devuelve null
+// });
+
+// mantener sesion iniciada
+app.get("/init/:token", async (req, res) => {
+  const { token } = req.params;
+  const tokenData = jwt.verify(token, SECRET);
+  const userId = tokenData.id;
+  const user = await User.findByPk(userId);
+
+  res.json(user);
 });
 
 // signUp

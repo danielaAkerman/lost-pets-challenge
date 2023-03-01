@@ -16,9 +16,34 @@ export const state = {
   setState(newState) {
     this.data = newState;
 
+    console.log(this.data)
+
     for (const call of this.listeners) {
       call(newState);
     }
+  },
+
+  init() {
+    const currentState = this.getState();
+    const userToken = localStorage.getItem("token");
+
+    fetch(url + "/init/" + userToken, {})
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        const { email, fullname } = data;
+
+        currentState.email = email;
+        currentState.fullname = fullname;
+        currentState.token = userToken;
+
+        state.setState(currentState)
+      });
+
+    currentState.token = userToken;
+
+    this.setState(currentState);
   },
 
   subscribe(callback: (any) => any) {
