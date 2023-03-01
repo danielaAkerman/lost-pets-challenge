@@ -28,12 +28,42 @@ export function initPageSignUp(root) {
     <input type="password" class="form-control" id="Repetir-Contraseña">
   </div>
 
+  <div class="alerta-password"></div>
+
   <button type="submit" class="btn btn-primary">Ingresar</button>
   
   </form>
-  
 
   `;
+
+  const alertaPassword = div.querySelector(".alerta-password")! as any;
+
+  const nameInput = div.querySelector("#Name")! as any;
+  const emailInput = div.querySelector("#Email")! as any;
+  const passwordInput = div.querySelector("#Contraseña")! as any;
+  const repeatPasswordInput = div.querySelector("#Repetir-Contraseña")! as any;
+
+  const form = div.querySelector(".form-signup")! as any;
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if (passwordInput.value == repeatPasswordInput.value) {
+      alertaPassword.innerHTML=""
+
+      const signUpValues: any = {};
+
+      signUpValues.fullname = nameInput.value;
+      signUpValues.email = emailInput.value;
+      signUpValues.password = passwordInput.value;
+
+      state.getAuth(signUpValues, root)
+
+
+    }else if(passwordInput.value != repeatPasswordInput.value){
+      alertaPassword.innerHTML=`Las constraseñas no coinciden`
+    }
+  });
 
   return div;
 }

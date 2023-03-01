@@ -25,35 +25,35 @@ export const state = {
     this.listeners.push(callback);
   },
 
-  setEmail(email, root) {
-    const currentState = state.getState();
-    currentState.email = email;
-    // VER SI ESTE MAIL EXISTE
+  // setEmail(email, root) {
+  //   const currentState = state.getState();
+  //   currentState.email = email;
+  //   // VER SI ESTE MAIL EXISTE
 
-    fetch(url + "/check-email", {
-      method: "post",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        if (data) {
-          // SI EXISTE REDIRIGIMOS A PASSWORD
-          currentState.fullname = data.fullname;
-          state.setState(currentState);
-          root.goTo("/password");
-        } else {
-          state.setState(currentState); // Igual guarda el mail
-          // SI NO EXISTE REDIRIGIMOS A MIS DATOS PARA PEDIRLE nombre, pass y repet pass
-          root.goTo("/mis-datos");
-        }
-      });
-  },
+  //   fetch(url + "/check-email", {
+  //     method: "post",
+  //     headers: {
+  //       "content-type": "application/json",
+  //     },
+  //     body: JSON.stringify({ email }),
+  //   })
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       if (data) {
+  //         // SI EXISTE REDIRIGIMOS A PASSWORD
+  //         currentState.fullname = data.fullname;
+  //         state.setState(currentState);
+  //         root.goTo("/password");
+  //       } else {
+  //         state.setState(currentState); // Igual guarda el mail
+  //         // SI NO EXISTE REDIRIGIMOS A MIS DATOS PARA PEDIRLE nombre, pass y repet pass
+  //         root.goTo("/mis-datos");
+  //       }
+  //     });
+  // },
 
   getToken(loginValues, root, alerta) {
     const currentState = state.getState();
@@ -78,6 +78,7 @@ export const state = {
         } else if (data.token) {
           console.log("Se hizo sign-in:", data);
           alerta.innerHTML = "OK LOG";
+          currentState.email = email;
           currentState.token = data.token;
           this.setState(currentState);
 
@@ -90,8 +91,8 @@ export const state = {
 
   getAuth(values, root) {
     const currentState = state.getState();
-    const { email } = currentState;
-    const { fullname, password } = values;
+
+    const { email, fullname, password } = values;
     console.log("A autenticar user!");
 
     fetch(url + "/auth", {
