@@ -55,10 +55,10 @@ export const state = {
       });
   },
 
-  getToken(password, root, alerta) {
-    // sing in - Ya sé el mail, el fullname, y ahora tmb la password
+  getToken(loginValues, root, alerta) {
     const currentState = state.getState();
-    const { email } = currentState;
+
+    const { email, password, check } = loginValues;
 
     fetch(url + "/auth/token", {
       method: "post",
@@ -73,13 +73,17 @@ export const state = {
       .then((data) => {
         if (data.message) {
           console.log("ERROR", data);
-          alerta.innerHTML = "ERROR: password inválida";
+          alerta.innerHTML = "ERROR";
           this.setState(currentState);
         } else if (data.token) {
           console.log("Se hizo sign-in:", data);
-          alerta.innerHTML = "";
+          alerta.innerHTML = "OK LOG";
           currentState.token = data.token;
           this.setState(currentState);
+
+          if (check) {
+            localStorage.setItem("token", data.token.toString());
+          }
         }
       });
   },
