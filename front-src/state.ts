@@ -54,6 +54,42 @@ export const state = {
     this.listeners.push(callback);
   },
 
+  logIn(values, root, alerta) {
+    const currentState = state.getState();
+
+    const { email, password, check } = values;
+
+    fetch(url + "/login", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        if (data.message) {
+          console.log("ERROR", data);
+          alerta.innerHTML = "ERROR";
+          // this.setState(currentState);
+        } else if (data) {
+          console.log("Se hizo sign-in:", data);
+          alerta.innerHTML = "";
+          currentState.userId = data.user.id;
+          currentState.fullname = data.user.fullname;
+          currentState.email = email;
+          currentState.token = data.token;
+          this.setState(currentState);
+
+          if (check) {
+            localStorage.setItem("token", data.token.toString());
+          }
+        }
+      });
+  },
+
   getToken(loginValues, root, alerta) {
     const currentState = state.getState();
 
@@ -126,8 +162,17 @@ export const state = {
       .then(() => {
         currentState.email = values.email;
         currentState.fullname = values.fullname;
+        state.setState(currentState)
         console.log("DATOS ACTUALIZADOS");
       });
+  },
+
+  logOut() {
+    if (localStorage.getItem("token")) {
+      localStorage.removeItem("token");
+    }
+    this.data = "";
+    console.log(this.data);
   },
 
   setMyUbication(ubication) {

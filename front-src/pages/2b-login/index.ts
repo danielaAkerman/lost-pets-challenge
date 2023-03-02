@@ -57,9 +57,9 @@ export function initPageLogIn(root) {
     loginValues.password = passwordInput.value;
     loginValues.check = checkInput.checked
 
-    state.getToken(loginValues, root, alerta);
+    state.logIn(loginValues, root, alerta)
+    // state.getToken(loginValues, root, alerta);
 
-    // state.getToken(loginValues);
   });
 
   return div;

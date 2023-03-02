@@ -51,6 +51,27 @@ app.get("/init/:token", async (req, res) => {
   res.json(user);
 });
 
+// logIn
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const passHash = getSHA(password);
+  const auth = await Auth.findOne({
+    where: {
+      email,
+      password: passHash,
+    },
+  });
+  // Si no hay registro de ese usuario y esa contraseña, devuelve null
+  if (auth) {
+    const id = auth.dataValues.user_id;
+    const token = jwt.sign({ id }, SECRET);
+    const user = await User.findByPk(id);
+    res.json({ token, user });
+  } else {
+    res.status(401).json({ message: "not found" });
+  }
+});
+
 // signUp
 app.post("/auth", async (req, res) => {
   const { email, fullname, password } = req.body;
@@ -91,6 +112,11 @@ app.post("/update-user/:id", async (req, res) => {
   const { id } = req.params;
 
   const updatedUser = await User.update(req.body, { where: { id } });
+  if (req.body.password) {
+    const passHash = getSHA(req.body.password);
+    req.body.password = passHash;
+    await Auth.update(req.body, { where: { id } });
+  }
   res.json(updatedUser);
 });
 

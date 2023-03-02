@@ -6,6 +6,8 @@ export function initPageMisDatos(root) {
   div.innerHTML = `
   <h1 class="fs-1">Mis Datos</h1>
 
+  <label>Completa sólo los campos que desees actualizar</label>
+
   <form class="form-mis-datos">
 
   <div class="mb-3">
@@ -58,8 +60,8 @@ export function initPageMisDatos(root) {
 
       const dataValues: any = {};
 
-      dataValues.fullname = nameInput.value;
-      dataValues.email = emailInput.value;
+      dataValues.fullname = nameInput.value || currentState.fullname;
+      dataValues.email = emailInput.value || currentState.email;
       dataValues.password = passwordInput.value;
 
       state.updateUser(dataValues);

@@ -1,10 +1,11 @@
 import { initRouter } from "../../router";
 import { state } from "../../state";
 
-import {initPageMisDatos} from "../../pages/2c-mis-datos";
-import {initPageMisMascotas} from "../../pages/3b-mis-mascotas";
-import {initPagePublicar} from "../../pages/3a-publicar";
+import {initPageUbication} from "../../pages/0-ubication";
 import {initPageWelcome} from "../../pages/1-welcome";
+import {initPageMisDatos} from "../../pages/2c-mis-datos";
+import {initPagePublicar} from "../../pages/3a-publicar";
+import {initPageMisMascotas} from "../../pages/3b-mis-mascotas";
 
 customElements.define(
   "nav-comp",
@@ -62,7 +63,7 @@ customElements.define(
               <li class="nav-item"
               data-bs-dismiss="offcanvas"
               aria-label="Close">
-                <div class="nav-link" style="cursor: pointer">
+                <div class="nav-link" style="cursor: pointer" id="cerrar-sesion">
                   Cerrar sesión
                 </div>
               </li>
@@ -113,6 +114,17 @@ customElements.define(
           root.firstChild.remove();
         }
         root.appendChild(initPagePublicar(root));
+      });
+
+      const cerrarSesion = this.querySelector("#cerrar-sesion");
+      cerrarSesion!.addEventListener("click", (e) => {
+        state.logOut()
+        // console.log("A reportar");
+        history.pushState({}, "", "/");
+        if (root.firstChild) {
+          root.firstChild.remove();
+        }
+        root.appendChild(initPageUbication(root));
       });
     }
   }
