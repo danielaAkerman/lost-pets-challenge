@@ -1,15 +1,16 @@
 import { initRouter } from "./router";
 import { state } from "./state";
-import "./components/navbar"
-
+import "./components/navbar";
 
 
 (function () {
-
-if (localStorage.token){
-  state.init()
-}
-
-  const root = document.querySelector(".root") as HTMLElement;
+  const root = document.querySelector(".root") as any;
   initRouter(root);
+  
+  if (localStorage.token) {
+    state.init();
+  }
+
+
 })();
+

@@ -1,6 +1,7 @@
 import { state } from "../../state";
+import { initPageSignUp } from "../2a-signup";
 
-export function initPageLogIn(root) {
+export function initPageLogIn(root, route?) {
   const div = document.createElement("div");
 
   div.innerHTML = `
@@ -39,14 +40,18 @@ export function initPageLogIn(root) {
 
   const buttonNewAccount = div.querySelector(".crear-cuenta");
   buttonNewAccount?.addEventListener("click", (e) => {
-    root.goTo("./signup");
+    history.pushState({}, "", "/signup");
+          if (root.firstChild) {
+            root.firstChild.remove();
+          }
+          root.appendChild(initPageSignUp(root))
   });
 
   const emailInput = div.querySelector("#Email")! as any;
   const passwordInput = div.querySelector("#Password")! as any;
   const checkInput = div.querySelector("#Check")! as any;
 
-  const alerta = div.querySelector(".alerta")! as any
+  const alerta = div.querySelector(".alerta")! as any;
 
   const form = div.querySelector(".form-login");
   form?.addEventListener("submit", (e) => {
@@ -55,11 +60,9 @@ export function initPageLogIn(root) {
 
     loginValues.email = emailInput.value;
     loginValues.password = passwordInput.value;
-    loginValues.check = checkInput.checked
+    loginValues.check = checkInput.checked;
 
-    state.logIn(loginValues, root, alerta)
-    // state.getToken(loginValues, root, alerta);
-
+    state.logIn(loginValues, root, alerta, route);
   });
 
   return div;

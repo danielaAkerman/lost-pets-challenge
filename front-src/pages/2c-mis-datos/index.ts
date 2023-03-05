@@ -3,8 +3,18 @@ import { state } from "../../state";
 export function initPageMisDatos(root) {
   const div = document.createElement("div");
 
+  const currentState = state.getState();
+
+  if (currentState.userId) {
+    console.log("hay user");
+  } else if (!currentState.userId) {
+    console.log("NO hay user");
+  }
+
   div.innerHTML = `
   <h1 class="fs-1">Mis Datos</h1>
+
+  <div class="modal-login"></div>
 
   <label>Completa sólo los campos que desees actualizar</label>
 
@@ -37,8 +47,10 @@ export function initPageMisDatos(root) {
   </form>
   `;
 
+  const modalLogin = div.querySelector(".modal-login")!;
+
   const alertaPassword = div.querySelector(".alerta-password")! as any;
-  const currentState = state.getState();
+  // const currentState = state.getState();
 
   const fullname = currentState.fullname;
 

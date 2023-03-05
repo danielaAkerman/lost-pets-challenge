@@ -1,3 +1,6 @@
+import {initPageMisDatos} from "./pages/2c-mis-datos"
+import { initPageMisMascotas } from "./pages/3b-mis-mascotas";
+import { initPagePublicar } from "./pages/3a-publicar";
 const url = process.env.url;
 
 export const state = {
@@ -28,8 +31,6 @@ export const state = {
     const currentState = this.getState();
     const userToken = localStorage.getItem("token");
 
-    console.log(userToken);
-
     fetch(url + "/init/" + userToken, {})
       .then((res) => {
         return res.json();
@@ -54,7 +55,7 @@ export const state = {
     this.listeners.push(callback);
   },
 
-  logIn(values, root, alerta) {
+  logIn(values, root, alerta, route) {
     const currentState = state.getState();
 
     const { email, password, check } = values;
@@ -86,6 +87,23 @@ export const state = {
           if (check) {
             localStorage.setItem("token", data.token.toString());
           }
+          console.log(route)
+
+          // ROUTEO
+
+          history.pushState({}, "", route);
+          if (root.firstChild) {
+            root.firstChild.remove();
+          }
+
+          if(route=="/mis-datos"){
+          root.appendChild(initPageMisDatos(root))}
+          if(route=="/mis-mascotas"){
+          root.appendChild(initPageMisMascotas(root))}
+          if(route=="/publicar-mascota"){
+          root.appendChild(initPagePublicar(root))}
+          
+
         }
       });
   },
@@ -124,7 +142,7 @@ export const state = {
       });
   },
 
-  getAuth(values, root) {
+  getAuth(values, root, confirmacion) {
     const currentState = state.getState();
 
     const { email, fullname, password } = values;
@@ -142,6 +160,7 @@ export const state = {
       })
       .then((data) => {
         console.log("Se autenticó user:", data);
+        confirmacion.innerHTML=`El usuario fue creado exitosamente`
         // root.goTo(route);
       });
   },

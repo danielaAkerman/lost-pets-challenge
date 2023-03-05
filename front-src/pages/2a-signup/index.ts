@@ -34,9 +34,12 @@ export function initPageSignUp(root) {
   
   </form>
 
+  <div class="confirmacion"></div>
+
   `;
 
   const alertaPassword = div.querySelector(".alerta-password")! as any;
+  const confirmacion = div.querySelector(".confirmacion")! as any;
 
   const nameInput = div.querySelector("#Name")! as any;
   const emailInput = div.querySelector("#Email")! as any;
@@ -57,7 +60,7 @@ export function initPageSignUp(root) {
       signUpValues.email = emailInput.value;
       signUpValues.password = passwordInput.value;
 
-      state.getAuth(signUpValues, root)
+      state.getAuth(signUpValues, root, confirmacion)
 
 
     }else if(passwordInput.value != repeatPasswordInput.value){
