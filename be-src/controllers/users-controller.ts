@@ -1,4 +1,4 @@
-import { User, Product } from "../models";
+import { User, Pet } from "../models";
 import { cloudinary } from "../lib/cloudinary";
 
 export async function updateProfile(userId, updateData) {

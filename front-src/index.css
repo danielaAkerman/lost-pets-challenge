@@ -92,3 +92,9 @@ form {
 a {
   color: rgba(0, 0, 0, 0.65) !important;
 }
+
+.dz-details,
+.dz-success-mark,
+.dz-error-mark{
+  display: none!important
+}

@@ -1,7 +1,7 @@
 import { sequelize } from "./models/connection";
 import { User, Pet, Auth, Report } from "./models";
 
-Report.sequelize.sync({ force: true }).then((res) => {
+Pet.sequelize.sync({ alter: true }).then((res) => {
   console.log(res);
-  Report.findAll();
+  Pet.findAll();
 });

@@ -8,6 +8,7 @@ Pet.init(
     last_location_lat: { type: DataTypes.FLOAT },
     last_location_lng: { type: DataTypes.FLOAT },
     status: { type: DataTypes.STRING },
+    picture_url: { type: DataTypes.STRING },
   },
   { sequelize, modelName: "pet" }
 );

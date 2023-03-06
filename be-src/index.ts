@@ -6,6 +6,7 @@ import * as process from "process";
 import * as cors from "cors";
 import { User, Pet, Auth, Report } from "./models";
 import { index } from "./lib/algolia";
+import { cloudinary } from "./lib/cloudinary";
 // import {
 //   updateProfile,
 //   getProfile,
@@ -139,7 +140,15 @@ app.get("/me", authMiddleware, async (req, res) => {
 });
 
 app.post("/new-pet", async (req, res) => {
-  // const { name, last_location_lat, last_location_lng, status } = req.body;
+  const { name, status, last_location_lat, last_location_lng, imagen_data } = req.body;
+
+  const imagen = await cloudinary.uploader.upload(imagen_data, {
+    resource_type: "image",
+    discard_original_filename: true,
+    width: 1000,
+  });
+  req.body.picture_url= imagen.secure_url
+
 
   const newPet = await Pet.create(req.body);
 
@@ -147,6 +156,7 @@ app.post("/new-pet", async (req, res) => {
     objectID: newPet.get("id"),
     name: newPet.get("name"),
     status: "lost",
+    picture_url: imagen.secure_url,
     _geoloc: {
       lat: newPet.get("last_location_lat"),
       lng: newPet.get("last_location_lng"),

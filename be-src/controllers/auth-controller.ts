@@ -1,1 +1,1 @@
-import { User, Product } from "../models";
+import { User } from "../models";

@@ -219,8 +219,7 @@ export const state = {
           pet_name.setAttribute("data-bs-pet_name", r.name);
 
           const foto = template.content.querySelector(".card-img-top");
-          foto.src =
-            "https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80";
+          foto.src = r.picture_url;
           // foto.src = r.thumbnail;
 
           const nombre = template.content.querySelector(".card-title");
@@ -272,8 +271,7 @@ export const state = {
             pet_id_delete.setAttribute("data-bs-pet_id", r.objectID);
 
             const foto = template.content.querySelector(".card-img-top");
-            foto.src =
-              "https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80";
+            foto.src = r.picture_url;
             // foto.src = r.thumbnail;
 
             const nombre = template.content.querySelector(".card-title");
@@ -287,6 +285,24 @@ export const state = {
             contenedor.appendChild(clone);
           }
         }
+      });
+  },
+
+  publicarMascota(datosNewPet) {
+    const currentState = state.getState();
+    datosNewPet.userId = currentState.userId;
+    fetch(url + "/new-pet", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(datosNewPet),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
       });
   },
 };
