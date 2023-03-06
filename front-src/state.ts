@@ -1,4 +1,4 @@
-import {initPageMisDatos} from "./pages/2c-mis-datos"
+import { initPageMisDatos } from "./pages/2c-mis-datos";
 import { initPageMisMascotas } from "./pages/3b-mis-mascotas";
 import { initPagePublicar } from "./pages/3a-publicar";
 const url = process.env.url;
@@ -87,7 +87,7 @@ export const state = {
           if (check) {
             localStorage.setItem("token", data.token.toString());
           }
-          console.log(route)
+          console.log(route);
 
           // ROUTEO
 
@@ -96,14 +96,15 @@ export const state = {
             root.firstChild.remove();
           }
 
-          if(route=="/mis-datos"){
-          root.appendChild(initPageMisDatos(root))}
-          if(route=="/mis-mascotas"){
-          root.appendChild(initPageMisMascotas(root))}
-          if(route=="/publicar-mascota"){
-          root.appendChild(initPagePublicar(root))}
-          
-
+          if (route == "/mis-datos") {
+            root.appendChild(initPageMisDatos(root));
+          }
+          if (route == "/mis-mascotas") {
+            root.appendChild(initPageMisMascotas(root));
+          }
+          if (route == "/publicar-mascota") {
+            root.appendChild(initPagePublicar(root));
+          }
         }
       });
   },
@@ -160,7 +161,7 @@ export const state = {
       })
       .then((data) => {
         console.log("Se autenticó user:", data);
-        confirmacion.innerHTML=`El usuario fue creado exitosamente`
+        confirmacion.innerHTML = `El usuario fue creado exitosamente`;
         // root.goTo(route);
       });
   },
@@ -181,7 +182,7 @@ export const state = {
       .then(() => {
         currentState.email = values.email;
         currentState.fullname = values.fullname;
-        state.setState(currentState)
+        state.setState(currentState);
         console.log("DATOS ACTUALIZADOS");
       });
   },
@@ -251,5 +252,41 @@ export const state = {
       });
   },
 
-  mostrarMisMascotas(root, contenedor, template) {},
+  mostrarMisMascotas(root, contenedor, template) {
+    const currentState = state.getState();
+    fetch(url + "/my-pets/" + currentState.userId)
+      .then((res) => {
+        return res.json();
+      })
+      .then((results) => {
+        if (results.length == 0) {
+          contenedor.innerHTML = `<h5 class="card-title">No tenés mascotas reportadas</h5>`;
+        } else {
+          contenedor.replaceChildren();
+
+          for (let r of results) {
+            const pet_id_edit = template.content.querySelector(".edit_pet");
+            pet_id_edit.setAttribute("data-bs-pet_id", r.objectID);
+
+            const pet_id_delete = template.content.querySelector(".delete_pet");
+            pet_id_delete.setAttribute("data-bs-pet_id", r.objectID);
+
+            const foto = template.content.querySelector(".card-img-top");
+            foto.src =
+              "https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80";
+            // foto.src = r.thumbnail;
+
+            const nombre = template.content.querySelector(".card-title");
+            nombre.textContent = r.name;
+
+            const ubicacion = template.content.querySelector(".card-text");
+            ubicacion.textContent = "Córdoba";
+
+            const clone = document.importNode(template.content, true);
+
+            contenedor.appendChild(clone);
+          }
+        }
+      });
+  },
 };

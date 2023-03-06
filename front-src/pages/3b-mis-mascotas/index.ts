@@ -16,13 +16,12 @@ export function initPageMisMascotas(root) {
       <div class="card-body">
         <h5 class="card-title"></h5>
         <p class="card-text"></p>
-        <button 
-        class="btn btn-warning selected_pet" 
-        data-bs-toggle="modal" 
-        data-bs-target="#exampleModal" 
-        data-bs-pet_name=""
-        data-bs-pet_id="" >
-          ¿Lo viste?
+        <button class="btn btn-warning mb-3 edit_pet" data-bs-pet_id="">
+          Editar
+        </button>
+
+        <button class="btn btn-danger mb-3 delete_pet" data-bs-pet_id="">
+          Eliminar
         </button>
       </div>
     </div>
@@ -35,6 +34,9 @@ export function initPageMisMascotas(root) {
   const template = div.querySelector("#template");
 
   state.mostrarMisMascotas(root, contenedor, template);
+
+
+
 
   return div;
 }

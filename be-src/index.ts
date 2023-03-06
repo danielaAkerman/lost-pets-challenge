@@ -146,7 +146,7 @@ app.post("/new-pet", async (req, res) => {
   const algoliaRes = await index.saveObject({
     objectID: newPet.get("id"),
     name: newPet.get("name"),
-    status: newPet.get("status"),
+    status: "lost",
     _geoloc: {
       lat: newPet.get("last_location_lat"),
       lng: newPet.get("last_location_lng"),
@@ -211,7 +211,7 @@ app.get("/pets", async (req, res) => {
 
 app.get("/my-pets/:userId", async (req, res) => {
   const { userId } = req.params;
-  const pets = await Pet.findAll({ where: { userId } });
+  const pets = await Pet.findAll({ where: { userId, status: "lost" } });
   res.json(pets);
 });
 
@@ -222,7 +222,7 @@ app.get("/users", async (req, res) => {
 
 app.get("/pets-near-me", async (req, res) => {
   const { lat, lng } = req.query;
-  const { hits } = await index.search("", {
+  const { hits } = await index.search("lost", {
     aroundLatLng: [lat, lng].join(","),
     aroundRadius: 3000,
   });

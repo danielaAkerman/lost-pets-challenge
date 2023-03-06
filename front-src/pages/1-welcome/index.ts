@@ -1,9 +1,7 @@
 import { state } from "../../state";
 
 export function initPageWelcome(root) {
-
-const currentState= state.getState()
-
+  const currentState = state.getState();
 
   const div = document.createElement("div");
 
