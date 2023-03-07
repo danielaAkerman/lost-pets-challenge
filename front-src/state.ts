@@ -213,7 +213,6 @@ export const state = {
         contenedor.replaceChildren();
 
         for (let r of results) {
-
           const pet_id = template.content.querySelector(".selected_pet");
           pet_id.setAttribute("data-bs-pet_id", r.objectID);
 
@@ -308,7 +307,7 @@ export const state = {
       });
   },
 
-  editarMascota(root, pet_id) {
+  irAEditarMascota(root, pet_id) {
     // ROUTEO
     history.pushState({}, "", "/editar-mascota");
     if (root.firstChild) {
@@ -324,10 +323,50 @@ export const state = {
       .then((pet) => {
         console.log("La mascota a editar es:", pet);
         const nameInput = root.querySelector("#Name");
+        nameInput.setAttribute("pet_id", pet_id);
         nameInput.value = pet.name;
+
+        const ubicationInput = root.querySelector("#Ubicacion");
+        ubicationInput.value = pet.ubication;
 
         const petPicture = root.querySelector(".pet-picture");
         petPicture.setAttribute("src", pet.picture_url);
+      });
+  },
+
+  editarMascota(datos) {
+    console.log("state:", datos);
+
+    // Preparo body para update
+    const sendBody: any = {};
+
+    if (datos.imagen_data) {
+      sendBody.imagen_data = datos.imagen_data;
+    }
+    if (datos.name) {
+      sendBody.name = datos.name;
+    }
+    if (datos.ubication) {
+      sendBody.ubication = datos.ubication;
+    }
+    if (datos.last_location_lat) {
+      sendBody.last_location_lat = datos.last_location_lat;
+    }
+    if (datos.last_location_lng) {
+      sendBody.last_location_lng = datos.last_location_lng;
+    }
+    fetch(url + "/edit-pet/" + datos.id, {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(sendBody),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
       });
   },
 

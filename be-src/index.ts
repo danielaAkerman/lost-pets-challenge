@@ -140,15 +140,21 @@ app.get("/me", authMiddleware, async (req, res) => {
 });
 
 app.post("/new-pet", async (req, res) => {
-  const { name, status, last_location_lat, last_location_lng, imagen_data, ubication } = req.body;
+  const {
+    name,
+    status,
+    last_location_lat,
+    last_location_lng,
+    imagen_data,
+    ubication,
+  } = req.body;
 
   const imagen = await cloudinary.uploader.upload(imagen_data, {
     resource_type: "image",
     discard_original_filename: true,
     width: 1000,
   });
-  req.body.picture_url= imagen.secure_url
-
+  req.body.picture_url = imagen.secure_url;
 
   const newPet = await Pet.create(req.body);
 
@@ -192,6 +198,9 @@ function bodyToIndex(body, id) {
   if (body.status) {
     respuesta.status = body.status;
   }
+  if (body.picture_url) {
+    respuesta.picture_url = body.picture_url;
+  }
   if (body.last_location_lat && body.last_location_lng) {
     respuesta._geoloc = {
       lat: body.last_location_lat,
@@ -201,12 +210,26 @@ function bodyToIndex(body, id) {
   return respuesta;
 }
 
-app.put("/edit-pet/:id", async (req, res) => {
+app.post("/edit-pet/:id", async (req, res) => {
   const { id } = req.params;
+
+  if (req.body.imagen_data) {
+    const { imagen_data } = req.body;
+
+    const imagen = await cloudinary.uploader.upload(imagen_data, {
+      resource_type: "image",
+      discard_original_filename: true,
+      width: 1000,
+    });
+    req.body.picture_url = imagen.secure_url;
+  }
+
   const editedPet = await Pet.update(req.body, { where: { id } });
   if (
     req.body.name ||
     req.body.status ||
+    req.body.ubication ||
+    req.body.picture_url ||
     (req.body.last_location_lat && req.body.last_location_lng)
   ) {
     const indexItem = bodyToIndex(req.body, id);

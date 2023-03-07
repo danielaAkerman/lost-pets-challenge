@@ -24,7 +24,8 @@ export function initPageEditarMascota(root) {
   </div>
 
   <div class="mb-3 dropzone">
-    <img class="pet-picture" src="" alt="" width=200>
+    <img class="pet-picture" src="" alt="" style="width:100%">
+    <button type="button" class="btn btn-link actualizar-picture">Eliminar esta imagen</button>
   </div>
 
   <div class="mb-3 mapa-container"></div>
@@ -32,6 +33,7 @@ export function initPageEditarMascota(root) {
   <div class="mb-3">
     <label for="Ubicacion" class="form-label">Ciudad o barrio</label>
     <input class="form-control" id="Ubicacion">
+    <p class="text-danger alerta"></p>
   </div>
 
   <button type="submit" class="btn btn-primary">Publicar</button>
@@ -42,6 +44,14 @@ export function initPageEditarMascota(root) {
 
   // Dropzone
   const divDrop = div.querySelector(".dropzone")!;
+
+  const eliminarImg = div.querySelector(".actualizar-picture")!;
+  const img = div.querySelector(".pet-picture")!;
+
+  eliminarImg.addEventListener("click", () => {
+    img.remove();
+    eliminarImg.remove();
+  });
   let imageDataURL;
   const myDropzone = new Dropzone(divDrop, {
     url: "/falsa",
@@ -76,51 +86,57 @@ export function initPageEditarMascota(root) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
+    const pet_id = petName.getAttribute("pet_id");
+
     const inputLocalizacion = div.querySelector("#Ubicacion")! as any;
     const localValue = inputLocalizacion.value;
-    console.log(localValue);
+    if (localValue) {
+      // SE REALIZA LA GEOBUSQUEDA
+      mapboxClient.geocodeForward(
+        localValue,
+        {
+          country: "ar",
+          autocomplete: true,
+          language: "es",
+        },
 
-    // SE REALIZA LA GEOBUSQUEDA
-    mapboxClient.geocodeForward(
-      localValue,
-      {
-        country: "ar",
-        autocomplete: true,
-        language: "es",
-      },
+        // SE GUARDA LOS DATOS DE LA BUSQUIEDA EN UN ATRIBUTO SEARCHDATA
+        (err, data, res) => {
+          const firstResult = data.features[0];
+          const lng = firstResult.geometry.coordinates[0];
+          const lat = firstResult.geometry.coordinates[1];
+          const searchData = { lng, lat };
+          console.log(searchData);
 
-      // SE GUARDA LOS DATOS DE LA BUSQUIEDA EN UN ATRIBUTO SEARCHDATA
-      (err, data, res) => {
-        const firstResult = data.features[0];
-        const lng = firstResult.geometry.coordinates[0];
-        const lat = firstResult.geometry.coordinates[1];
-        const searchData = { lng, lat };
-        console.log(searchData);
+          // CREA EL MARKER EN EL MAPA
 
-        // CREA EL MARKER EN EL MAPA
+          new mapboxgl.Marker()
+            .setLngLat(firstResult.geometry.coordinates)
+            .addTo(map);
 
-        new mapboxgl.Marker()
-          .setLngLat(firstResult.geometry.coordinates)
-          .addTo(map);
+          map.setCenter(firstResult.geometry.coordinates);
+          map.setZoom(14);
 
-        map.setCenter(firstResult.geometry.coordinates);
-        map.setZoom(14);
+          // Objeto para request
+          const datosNewPet: any = {};
 
-        // Objeto para request
-        const datosNewPet: any = {};
+          datosNewPet.name = petName.value || "";
+          datosNewPet.id = pet_id;
+          datosNewPet.imagen_data = imageDataURL || "";
+          datosNewPet.ubication = localValue;
 
-        datosNewPet.name = petName.value;
-        datosNewPet.status = "lost";
-        datosNewPet.imagen_data = imageDataURL;
+          datosNewPet.last_location_lat = lat || "";
+          datosNewPet.last_location_lng = lng || "";
 
-        datosNewPet.last_location_lat = lat;
-        datosNewPet.last_location_lng = lng;
+          console.log({ datosNewPet });
 
-        console.log({ datosNewPet });
-
-        state.publicarMascota(datosNewPet);
-      }
-    );
+          state.editarMascota(datosNewPet);
+        }
+      );
+    } else if (!localValue) {
+      console.log("poner ubicacion");
+      div.querySelector(".alerta")!.innerHTML= `Insertar ubicación para continuar`
+    }
   });
 
   return div;
