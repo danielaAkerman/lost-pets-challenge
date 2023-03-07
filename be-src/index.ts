@@ -140,7 +140,7 @@ app.get("/me", authMiddleware, async (req, res) => {
 });
 
 app.post("/new-pet", async (req, res) => {
-  const { name, status, last_location_lat, last_location_lng, imagen_data } = req.body;
+  const { name, status, last_location_lat, last_location_lng, imagen_data, ubication } = req.body;
 
   const imagen = await cloudinary.uploader.upload(imagen_data, {
     resource_type: "image",
@@ -154,12 +154,13 @@ app.post("/new-pet", async (req, res) => {
 
   const algoliaRes = await index.saveObject({
     objectID: newPet.get("id"),
-    name: newPet.get("name"),
+    name,
+    ubication,
     status: "lost",
     picture_url: imagen.secure_url,
     _geoloc: {
-      lat: newPet.get("last_location_lat"),
-      lng: newPet.get("last_location_lng"),
+      lat: last_location_lat,
+      lng: last_location_lng,
     },
   });
   res.json(newPet);
@@ -217,6 +218,12 @@ app.put("/edit-pet/:id", async (req, res) => {
 app.get("/pets", async (req, res) => {
   const pets = await Pet.findAll();
   res.json(pets);
+});
+
+app.get("/pet/:id", async (req, res) => {
+  const { id } = req.params;
+  const pet = await Pet.findByPk(id);
+  res.json(pet);
 });
 
 app.get("/my-pets/:userId", async (req, res) => {

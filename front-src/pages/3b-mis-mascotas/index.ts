@@ -16,11 +16,11 @@ export function initPageMisMascotas(root) {
       <div class="card-body">
         <h5 class="card-title"></h5>
         <p class="card-text"></p>
-        <button class="btn btn-warning mb-3 edit_pet" data-bs-pet_id="">
+        <button class="btn btn-warning mb-3" id="edit_pet" pet_id="" >
           Editar
         </button>
 
-        <button class="btn btn-danger mb-3 delete_pet" data-bs-pet_id="">
+        <button class="btn btn-danger mb-3" id="delete_pet" pet_id="" >
           Eliminar
         </button>
       </div>
@@ -30,13 +30,34 @@ export function initPageMisMascotas(root) {
 
 
   `;
-  const contenedor = div.querySelector(".results");
+  const contenedor = div.querySelector(".results")! as any;
   const template = div.querySelector("#template");
 
   state.mostrarMisMascotas(root, contenedor, template);
 
+  // Agrego listenners Botón Editar y Eliminar
+  let counter = 1;
+  const intervalIdB = setInterval(() => {
+    counter--;
+    if (counter < 0) {
+      clearInterval(intervalIdB);
+      const items = contenedor.children;
+      for (const i of items) {
+        const editButton = i.querySelector("#edit_pet")! as any;
 
+        editButton.addEventListener("click", (e) => {
+          const pet_id = e.target.getAttribute("pet_id");
+          state.editarMascota(root, pet_id);
+        });
 
+        const deleteButton = div.querySelector("#delete_pet")! as any;
+        deleteButton.addEventListener('click', (e)=>{
+          const pet_id = e.target.getAttribute("pet_id");
+          state.eliminarMascota(root, pet_id);
+        })
+      }
+    }
+  }, 1000);
 
   return div;
 }

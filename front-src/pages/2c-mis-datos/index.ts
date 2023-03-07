@@ -16,7 +16,7 @@ export function initPageMisDatos(root) {
 
   <div class="modal-login"></div>
 
-  <label>Completa sólo los campos que desees actualizar</label>
+  <label class="mb-3">Completa sólo los campos que desees actualizar</label>
 
   <form class="form-mis-datos">
 

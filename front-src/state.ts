@@ -1,6 +1,7 @@
 import { initPageMisDatos } from "./pages/2c-mis-datos";
 import { initPageMisMascotas } from "./pages/3b-mis-mascotas";
 import { initPagePublicar } from "./pages/3a-publicar";
+import { initPageEditarMascota } from "./pages/3c-editar-mascota";
 const url = process.env.url;
 
 export const state = {
@@ -212,6 +213,7 @@ export const state = {
         contenedor.replaceChildren();
 
         for (let r of results) {
+
           const pet_id = template.content.querySelector(".selected_pet");
           pet_id.setAttribute("data-bs-pet_id", r.objectID);
 
@@ -226,7 +228,7 @@ export const state = {
           nombre.textContent = r.name;
 
           const ubicacion = template.content.querySelector(".card-text");
-          ubicacion.textContent = "";
+          ubicacion.textContent = r.ubication;
 
           const clone = document.importNode(template.content, true);
 
@@ -264,11 +266,11 @@ export const state = {
           contenedor.replaceChildren();
 
           for (let r of results) {
-            const pet_id_edit = template.content.querySelector(".edit_pet");
-            pet_id_edit.setAttribute("data-bs-pet_id", r.objectID);
+            const pet_id = template.content.querySelector("#edit_pet");
+            pet_id.setAttribute("pet_id", r.id);
 
-            const pet_id_delete = template.content.querySelector(".delete_pet");
-            pet_id_delete.setAttribute("data-bs-pet_id", r.objectID);
+            const pet_id_delete = template.content.querySelector("#delete_pet");
+            pet_id_delete.setAttribute("pet_id", r.id);
 
             const foto = template.content.querySelector(".card-img-top");
             foto.src = r.picture_url;
@@ -278,7 +280,7 @@ export const state = {
             nombre.textContent = r.name;
 
             const ubicacion = template.content.querySelector(".card-text");
-            ubicacion.textContent = "";
+            ubicacion.textContent = r.ubication;
 
             const clone = document.importNode(template.content, true);
 
@@ -305,4 +307,29 @@ export const state = {
         console.log(data);
       });
   },
+
+  editarMascota(root, pet_id) {
+    // ROUTEO
+    history.pushState({}, "", "/editar-mascota");
+    if (root.firstChild) {
+      root.firstChild.remove();
+    }
+    root.appendChild(initPageEditarMascota(root));
+
+    // DB
+    fetch(url + "/pet/" + pet_id)
+      .then((res) => {
+        return res.json();
+      })
+      .then((pet) => {
+        console.log("La mascota a editar es:", pet);
+        const nameInput = root.querySelector("#Name");
+        nameInput.value = pet.name;
+
+        const petPicture = root.querySelector(".pet-picture");
+        petPicture.setAttribute("src", pet.picture_url);
+      });
+  },
+
+  eliminarMascota(root, pet_id) {},
 };

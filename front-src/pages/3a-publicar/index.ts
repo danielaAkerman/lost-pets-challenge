@@ -28,7 +28,7 @@ export function initPagePublicar(root) {
   <div class="mb-3 mapa-container"></div>
 
   <div class="mb-3">
-    <label for="Ubicacion" class="form-label">Ubicación</label>
+    <label for="Ubicacion" class="form-label">Ciudad o barrio</label>
     <input class="form-control" id="Ubicacion">
   </div>
 
@@ -106,6 +106,7 @@ export function initPagePublicar(root) {
         const datosNewPet: any = {};
 
         datosNewPet.name = petName.value;
+        datosNewPet.ubication = localValue;
         datosNewPet.status = "lost";
         datosNewPet.imagen_data = imageDataURL;
 
