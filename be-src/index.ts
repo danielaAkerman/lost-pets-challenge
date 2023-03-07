@@ -198,6 +198,9 @@ function bodyToIndex(body, id) {
   if (body.status) {
     respuesta.status = body.status;
   }
+  if (body.ubication) {
+    respuesta.ubication = body.ubication;
+  }
   if (body.picture_url) {
     respuesta.picture_url = body.picture_url;
   }
