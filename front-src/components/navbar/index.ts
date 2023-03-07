@@ -23,7 +23,7 @@ customElements.define(
     <nav class="navbar fixed-top">
       <div class="container-fluid">
 
-        <a class="navbar-brand">Lost Pets</a>
+        <a class="navbar-brand" style="cursor:pointer">Lost Pets</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
           <span class="navbar-toggler-icon"></span>
@@ -91,17 +91,6 @@ customElements.define(
 
       const root = document.querySelector(".root") as any;
       initRouter(root);
-
-      // Ir al inicio
-      const brand = this.querySelector(".navbar-brand");
-      brand!.addEventListener("click", (e) => {
-        // console.log("A inicio");
-        history.pushState({}, "", "/welcome");
-        if (root.firstChild) {
-          root.firstChild.remove();
-        }
-        root.appendChild(initPageWelcome(root));
-      });
 
       const datos = this.querySelector("#mis-datos");
       datos!.addEventListener("click", (e) => {

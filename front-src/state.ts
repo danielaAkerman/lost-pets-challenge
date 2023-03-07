@@ -248,7 +248,7 @@ export const state = {
         return res.json();
       })
       .then((data) => {
-        console.log(data.message);
+        console.log(data);
       });
   },
 

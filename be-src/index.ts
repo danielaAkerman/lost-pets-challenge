@@ -7,6 +7,7 @@ import * as cors from "cors";
 import { User, Pet, Auth, Report } from "./models";
 import { index } from "./lib/algolia";
 import { cloudinary } from "./lib/cloudinary";
+const sgMail = require("@sendgrid/mail");
 // import {
 //   updateProfile,
 //   getProfile,
@@ -173,10 +174,37 @@ app.post("/new-pet", async (req, res) => {
 });
 
 app.post("/new-report", async (req, res) => {
-  // const { reporter, phone_number, message, pet_id } = req.body;
+  const { reporter, phone_number, message, pet_id, pet_name } = req.body;
 
   const newReport = await Report.create(req.body);
-  res.json({ message: "Reporte enviado" });
+
+  const reportedPet = await Pet.findByPk(pet_id);
+  const ownerId = reportedPet.dataValues.userId;
+
+  const owner = await User.findByPk(ownerId);
+  const ownerEmail = owner.dataValues.email;
+
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  const msg = {
+    to: ownerEmail,
+    from: "daniela.akerman@outlook.com",
+    subject: `Nuevo reporte de ${pet_name}`,
+    text: `Hola!`,
+    html: `<strong>LostPets</strong>
+    Hola! Te contamos que ${reporter} vio a tu mascota ${pet_name}, 
+    su número es ${phone_number} 
+    y te dejó este mensaje: ${message}
+    `,
+  };
+  sgMail
+    .send(msg)
+    .then(() => {
+      res.json({ message: `Reporte enviado a ${ownerEmail}` });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.json("Error");
+    });
 });
 
 app.get("/reports/:pet_id", async (req, res) => {

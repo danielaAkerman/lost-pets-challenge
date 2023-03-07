@@ -87,6 +87,7 @@ export function initPageWelcome(root) {
       e.preventDefault();
       const reporte: any = {};
 
+      reporte.pet_name = petName;
       reporte.reporter = inputReporterName.value;
       reporte.phone_number = inputReporterTelefono.value;
       reporte.message = inputReporterMensaje.value;

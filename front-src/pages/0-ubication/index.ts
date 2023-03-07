@@ -5,7 +5,6 @@ export function initPageUbication(root) {
   const div = document.createElement("div");
 
   div.innerHTML = `
-  <h1 class="fs-1">LostPets</h1>
   <div class="img-container">
     <img src=${search} class="img-fluid">
   </div>
