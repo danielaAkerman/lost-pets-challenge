@@ -234,7 +234,7 @@ app.get("/pets-near-me", async (req, res) => {
   const { lat, lng } = req.query;
   const { hits } = await index.search("lost", {
     aroundLatLng: [lat, lng].join(","),
-    aroundRadius: 3000,
+    aroundRadius: 10000,
   });
   res.json(hits);
 });

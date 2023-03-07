@@ -66,7 +66,7 @@ export function initPagePublicar(root) {
       zoom: 9, // starting zoom
     });
   }
-  initMap();
+  const map: any = initMap();
 
   const petName = div.querySelector("#Name")! as any;
   const form = div.querySelector(".form-publicar")!;
@@ -94,25 +94,29 @@ export function initPagePublicar(root) {
         console.log(searchData);
 
         // CREA EL MARKER EN EL MAPA
+
         new mapboxgl.Marker()
           .setLngLat(firstResult.geometry.coordinates)
-          .addTo(this.map);
-        this.map.setCenter(firstResult.geometry.coordinates);
-        this.map.setZoom(14);
+          .addTo(map);
+
+        map.setCenter(firstResult.geometry.coordinates);
+        map.setZoom(14);
+
+        // Objeto para request
+        const datosNewPet: any = {};
+
+        datosNewPet.name = petName.value;
+        datosNewPet.status = "lost";
+        datosNewPet.imagen_data = imageDataURL;
+
+        datosNewPet.last_location_lat = lat;
+        datosNewPet.last_location_lng = lng;
+
+        console.log({ datosNewPet });
+
+        state.publicarMascota(datosNewPet);
       }
     );
-
-    const datosNewPet: any = {};
-
-    datosNewPet.name = petName.value;
-    datosNewPet.status = "lost";
-    datosNewPet.imagen_data = imageDataURL;
-
-    datosNewPet.last_location_lat = -31.4321021;
-    datosNewPet.last_location_lng = -64.2318336;
-
-    console.log({ datosNewPet });
-    // state.publicarMascota(datosNewPet);
   });
 
   return div;

@@ -226,7 +226,7 @@ export const state = {
           nombre.textContent = r.name;
 
           const ubicacion = template.content.querySelector(".card-text");
-          ubicacion.textContent = "Córdoba";
+          ubicacion.textContent = "";
 
           const clone = document.importNode(template.content, true);
 
@@ -278,7 +278,7 @@ export const state = {
             nombre.textContent = r.name;
 
             const ubicacion = template.content.querySelector(".card-text");
-            ubicacion.textContent = "Córdoba";
+            ubicacion.textContent = "";
 
             const clone = document.importNode(template.content, true);
 
