@@ -241,6 +241,19 @@ app.post("/edit-pet/:id", async (req, res) => {
   res.json(editedPet);
 });
 
+app.post("/delete-pet/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const deletedPet = await Pet.update(req.body, { where: { id } });
+
+  req.body.objectID = id;
+
+  // const indexItem = bodyToIndex(req.body, id);
+  const algoliaRes = await index.partialUpdateObject(req.body);
+
+  res.json(deletedPet);
+});
+
 app.get("/pets", async (req, res) => {
   const pets = await Pet.findAll();
   res.json(pets);

@@ -50,7 +50,8 @@ export function initPageMisMascotas(root) {
           state.irAEditarMascota(root, pet_id);
         });
 
-        const deleteButton = div.querySelector("#delete_pet")! as any;
+        const deleteButton = i.querySelector("#delete_pet")! as any;
+
         deleteButton.addEventListener('click', (e)=>{
           const pet_id = e.target.getAttribute("pet_id");
           state.eliminarMascota(root, pet_id);

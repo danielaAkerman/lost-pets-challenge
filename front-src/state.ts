@@ -335,7 +335,6 @@ export const state = {
   },
 
   editarMascota(datos) {
-    console.log("state:", datos);
 
     // Preparo body para update
     const sendBody: any = {};
@@ -370,5 +369,19 @@ export const state = {
       });
   },
 
-  eliminarMascota(root, pet_id) {},
+  eliminarMascota(root, pet_id) {
+    fetch(url + "/delete-pet/" + pet_id, {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({status:"deleted"}),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+  },
 };
