@@ -1,5 +1,6 @@
 import { state } from "../../state";
 import { Dropzone } from "dropzone";
+import * as mapboxgl from "mapbox-gl";
 
 export function initPagePublicar(root) {
   const div = document.createElement("div");
@@ -16,9 +17,7 @@ export function initPagePublicar(root) {
 
   <div class="mb-3 dropzone"></div>
 
-  <div class="mb-3 mapa-container">
-    <h2>MAPA</h2>
-  </div>
+  <div class="mb-3 mapa-container"></div>
 
   <div class="mb-3">
     <label for="Ubicacion" class="form-label">Ubicación</label>
@@ -55,13 +54,28 @@ export function initPagePublicar(root) {
     datosNewPet.status = "lost";
     datosNewPet.imagen_data = imageDataURL;
 
-    datosNewPet.last_location_lat= -31.4321021,
-    datosNewPet.last_location_lng= -64.2318336,
-
-
-    console.log({ datosNewPet });
-    state.publicarMascota(datosNewPet)
+    (datosNewPet.last_location_lat = -31.4321021),
+      (datosNewPet.last_location_lng = -64.2318336),
+      console.log({ datosNewPet });
+    state.publicarMascota(datosNewPet);
   });
+
+
+// mapbox
+
+
+  // INICIA EL MAPA EN EL CONTENEDOR
+  function initMap() {
+    const mapContainer = div.querySelector(".mapa-container");
+    mapboxgl.accessToken = process.env.MAPBOX_TOKEN;
+    return new mapboxgl.Map({
+      container: mapContainer,
+      style: "mapbox://styles/mapbox/streets-v11",
+    });
+  }
+  initMap()
 
   return div;
 }
+
+
