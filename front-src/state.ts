@@ -199,12 +199,17 @@ export const state = {
   setMyUbication(ubication) {
     const currentState = state.getState();
     currentState.ubication = ubication;
+    sessionStorage.setItem("lat", ubication.lat);
+    sessionStorage.setItem("lng", ubication.lng);
+
     state.setState(currentState);
   },
 
   mostrarMascotasCercaTuyo(root, contenedor, template) {
     const currentState = state.getState();
-    const { lat, lng } = currentState.ubication;
+    const lat = sessionStorage.getItem("lat");
+    const lng = sessionStorage.getItem("lng");
+    // const { lat, lng } = currentState.ubication;
     fetch(url + "/pets-near-me" + "?lat=" + lat + "&lng=" + lng)
       .then((res) => {
         return res.json();
@@ -335,7 +340,6 @@ export const state = {
   },
 
   editarMascota(datos) {
-
     // Preparo body para update
     const sendBody: any = {};
 
@@ -375,7 +379,7 @@ export const state = {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({status:"deleted"}),
+      body: JSON.stringify({ status: "deleted" }),
     })
       .then((res) => {
         return res.json();

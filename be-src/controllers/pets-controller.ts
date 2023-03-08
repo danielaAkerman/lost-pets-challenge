@@ -137,10 +137,10 @@ export async function getMyPets(userId) {
   return pets;
 }
 
-export async function petsNearMe(lat, lng){
-const pets = await index.search("lost", {
-  aroundLatLng: [lat, lng].join(","),
-  aroundRadius: 10000,
-});
-return pets
+export async function petsNearMe(lat, lng) {
+  const pets = await index.search("lost", {
+    aroundLatLng: [lat, lng].join(","),
+    aroundRadius: 10000,
+  });
+  return pets;
 }
