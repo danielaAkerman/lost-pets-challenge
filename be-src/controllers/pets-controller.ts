@@ -62,11 +62,12 @@ export async function newReport(reportData) {
   sgMail
     .send(msg)
     .then(() => {
-      return { message: `Reporte enviado a ${ownerEmail}` };
+      console.log( `Reporte enviado a ${ownerEmail}`)
+      return {message: "Reporte enviado"} ;
     })
     .catch((error) => {
       console.error(error);
-      return "Error";
+      return {message: "Error"};
     });
 }
 
@@ -124,7 +125,7 @@ export async function deletePet(petId, petData) {
   const deletedPet = await Pet.update(petData, { where: { id: petId } });
   petData.objectID = petId;
   const algoliaRes = await index.partialUpdateObject(petData);
-  return deletePet;
+  return {deletePet};
 }
 
 export async function getOnePet(petId) {

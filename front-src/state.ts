@@ -385,7 +385,8 @@ export const state = {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
+        console.log("Mascota Eliminada");
+        window.alert("La publicación de tu mascota se ha eliminado y no volverá a estar disponible");
       });
   },
 };

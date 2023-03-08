@@ -93,7 +93,8 @@ app.post("/new-pet", async (req, res) => {
 
 app.post("/new-report", async (req, res) => {
   const reporte = await newReport(req.body);
-  res.json(reporte);
+  // reporte= { message: `Reporte enviado a ${ownerEmail}` }
+  res.json({reporte});
 });
 
 app.post("/edit-pet/:id", async (req, res) => {
