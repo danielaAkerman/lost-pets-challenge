@@ -1,29 +1,37 @@
 import { Pet, User } from "../models";
 
 import { cloudinary } from "../lib/cloudinary";
+import { index } from "../lib/algolia";
 
-export async function updateNewPet(userId, updateData) {
-  if (updateData.pictureURL) {
-    const imagen = await cloudinary.uploader.upload(updateData.pictureURL, {
-      resource_type: "image",
-      discard_original_filename: true,
-      width: 1000,
-    });
+export async function updateNewPet(updateData) {
+  const {
+    name,
+    status,
+    last_location_lat,
+    last_location_lng,
+    imagen_data,
+    ubication,
+  } = updateData;
 
-    const updateDataComplete = {
-      name: updateData.name,
-      status: updateData.status,
-      picture_url: imagen.secure_url,
+  const imagen = await cloudinary.uploader.upload(imagen_data, {
+    resource_type: "image",
+    discard_original_filename: true,
+    width: 1000,
+  });
+  updateData.picture_url = imagen.secure_url;
 
-    //   last_location_lat: ,
-    //   last_location_lng: ,
-    };
+  const newPet = await Pet.create(updateData);
 
-    await Pet.create(updateDataComplete);
-    // await User.update(updateDataComplete, { where: { id: userId } });
-
-    return updateDataComplete;
-  } else {
-    console.log("No hay imagen adjunta");
-  }
+  const algoliaRes = await index.saveObject({
+    objectID: newPet.get("id"),
+    name,
+    ubication,
+    status: "lost",
+    picture_url: imagen.secure_url,
+    _geoloc: {
+      lat: last_location_lat,
+      lng: last_location_lng,
+    },
+  });
+  return newPet;
 }

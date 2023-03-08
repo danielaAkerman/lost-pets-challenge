@@ -7,13 +7,15 @@ import * as cors from "cors";
 import { User, Pet, Auth, Report } from "./models";
 import { index } from "./lib/algolia";
 import { cloudinary } from "./lib/cloudinary";
+import {
+  getUserFromToken,
+  signUp,
+  updateUser,
+} from "./controllers/users-controller";
+import { getAuth, signIn } from "./controllers/auth-controller";
+import { updateNewPet } from "./controllers/pets-controller";
 const sgMail = require("@sendgrid/mail");
-// import {
-//   updateProfile,
-//   getProfile,
-//   getEveryProfiles,
-// } from "./controllers/users-controller";
-// import { createProduct } from "./controllers/products-controller";
+// import {} from "./controllers/users-controller";
 // import {} from "./controllers/auth-controller";
 
 const port = process.env.PORT;
@@ -31,10 +33,7 @@ function getSHA(text: string) {
 // mantener sesion iniciada
 app.get("/init/:token", async (req, res) => {
   const { token } = req.params;
-  const tokenData = jwt.verify(token, SECRET);
-  const userId = tokenData.id;
-  const user = await User.findByPk(userId);
-
+  const user = await getUserFromToken(token);
   res.json(user);
 });
 
@@ -42,37 +41,15 @@ app.get("/init/:token", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const passHash = getSHA(password);
-  const auth = await Auth.findOne({
-    where: {
-      email,
-      password: passHash,
-    },
-  });
-  // Si no hay registro de ese usuario y esa contraseña, devuelve null
-  if (auth) {
-    const id = auth.dataValues.user_id;
-    const token = jwt.sign({ id }, SECRET);
-    const user = await User.findByPk(id);
-    res.json({ token, user });
-  } else {
-    res.status(401).json({ message: "not found" });
-  }
+  const auth = await getAuth(email, passHash);
+  res.json(auth);
 });
 
 // signUp
 app.post("/auth", async (req, res) => {
   const { email, fullname, password } = req.body;
-  const user = await User.create({
-    email,
-    fullname,
-  });
-
-  const auth = await Auth.create({
-    email,
-    password: getSHA(password),
-    user_id: user.dataValues.id,
-  });
-
+  const passHash = getSHA(password);
+  const auth = await signUp(email, fullname, passHash);
   res.json(auth);
 });
 
@@ -80,74 +57,30 @@ app.post("/auth", async (req, res) => {
 app.post("/auth/token", async (req, res) => {
   const { email, password } = req.body;
   const passHash = getSHA(password);
-  const auth = await Auth.findOne({
-    where: {
-      email,
-      password: passHash,
-    },
-  });
-  // Si no hay registro de ese usuario y esa contraseña, devuelve null
-  if (auth) {
-    const token = jwt.sign({ id: auth.dataValues.user_id }, SECRET);
-    res.json({ token });
-  } else {
-    res.status(401).json({ message: "not found" });
-  }
+  const auth = await signIn(email, passHash);
+  res.json(auth);
 });
 
 app.post("/update-user/:id", async (req, res) => {
   const { id } = req.params;
-
-  const updatedUser = await User.update(req.body, { where: { id } });
-  if (req.body.password) {
-    const passHash = getSHA(req.body.password);
-    req.body.password = passHash;
-    await Auth.update(req.body, { where: { id } });
-  }
+  const passHash = getSHA(req.body.password);
+  const updatedUser = await updateUser(id, req.body, passHash);
   res.json(updatedUser);
 });
 
-async function authMiddleware(req, res, next) {
-  const token = req.headers.authorization.split(" ")[1];
-  try {
-    const data = jwt.verify(token, SECRET);
-    req._user = data;
-    next();
-  } catch (e) {
-    res.status(401).json({ error: true });
-  }
-}
+// async function authMiddleware(req, res, next) {
+//   const token = req.headers.authorization.split(" ")[1];
+//   try {
+//     const data = jwt.verify(token, SECRET);
+//     req._user = data;
+//     next();
+//   } catch (e) {
+//     res.status(401).json({ error: true });
+//   }
+// }
 
 app.post("/new-pet", async (req, res) => {
-  const {
-    name,
-    status,
-    last_location_lat,
-    last_location_lng,
-    imagen_data,
-    ubication,
-  } = req.body;
-
-  const imagen = await cloudinary.uploader.upload(imagen_data, {
-    resource_type: "image",
-    discard_original_filename: true,
-    width: 1000,
-  });
-  req.body.picture_url = imagen.secure_url;
-
-  const newPet = await Pet.create(req.body);
-
-  const algoliaRes = await index.saveObject({
-    objectID: newPet.get("id"),
-    name,
-    ubication,
-    status: "lost",
-    picture_url: imagen.secure_url,
-    _geoloc: {
-      lat: last_location_lat,
-      lng: last_location_lng,
-    },
-  });
+  const newPet = await updateNewPet(req.body);
   res.json(newPet);
 });
 

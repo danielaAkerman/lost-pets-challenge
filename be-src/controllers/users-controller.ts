@@ -1,35 +1,37 @@
-import { User, Pet } from "../models";
+import { User, Pet, Auth } from "../models";
 import { cloudinary } from "../lib/cloudinary";
+import * as jwt from "jsonwebtoken";
 
-export async function updateProfile(userId, updateData) {
-  if (updateData.pictureURL) {
-    const imagen = await cloudinary.uploader.upload(updateData.pictureURL, {
-      resource_type: "image",
-      discard_original_filename: true,
-      width: 1000,
-    });
+const SECRET = process.env.SECRET;
 
-    const updateDataComplete = {
-      fullname: updateData.fullname,
-      bio: updateData.bio,
-      pictureURL: imagen.secure_url,
-    };
+export async function getUserFromToken(token){
 
-    await User.create(updateDataComplete);
-    // await User.update(updateDataComplete, { where: { id: userId } });
+  const tokenData = jwt.verify(token, SECRET);
+  const userId = tokenData.id;
+  const user = await User.findByPk(userId);
 
-    return updateDataComplete;
-  } else {
-    console.log("No hay imagen adjunta");
+  return user
+}
+
+export async function signUp(email, fullname, passHash){
+  const user = await User.create({
+    email,
+    fullname,
+  });
+
+  const auth = await Auth.create({
+    email,
+    password: passHash,
+    user_id: user.dataValues.id,
+  });
+  return auth
+}
+
+export async function updateUser(userId, userData, passHash){
+  const updatedUser = await User.update(userData, { where: { id:userId } });
+  if (userData.password) {
+    userData.password = passHash;
+    await Auth.update(userData, { where: { id:userId } });
   }
-}
-
-export async function getProfile(userId) {
-  const userProfile = await User.findByPk(userId);
-  return userProfile;
-}
-
-export async function getEveryProfiles() {
-  const profiles = await User.findAll();
-  return profiles;
+  return updatedUser
 }
