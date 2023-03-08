@@ -22,26 +22,11 @@ app.use(express.json({ limit: "50mb" }));
 app.use(cors());
 
 const SECRET = process.env.SECRET;
-const staticDirPath = path.resolve(__dirname, "../front-dist");
+const staticDirPath = path.resolve(__dirname, "../dist");
 
 function getSHA(text: string) {
   return crypto.createHash("sha256").update(text).digest("hex");
 }
-
-// LA RECEPCIÓN DE LOS DATOS (body, params, etc) SE CHEQUEA EN ESTA INSTANCIA
-
-// app.get("/environment", (req, res) => {
-//   res.json({ message: process.env.environment });
-// });
-
-// ver si existe un mail
-// app.post("/check-email", async (req, res) => {
-//   const { email } = req.body;
-//   const foundUser = await User.findOne({
-//     where: { email },
-//   });
-//   res.json(foundUser); // Si no existe devuelve null
-// });
 
 // mantener sesion iniciada
 app.get("/init/:token", async (req, res) => {
@@ -133,13 +118,6 @@ async function authMiddleware(req, res, next) {
   }
 }
 
-app.get("/me", authMiddleware, async (req, res) => {
-  const foundId = req._user.id;
-  // const foundUser = await User.findOne({ where: { id: foundId } });
-  const foundUser = await User.findByPk(req._user.id);
-  res.json(foundUser);
-});
-
 app.post("/new-pet", async (req, res) => {
   const {
     name,
@@ -207,16 +185,6 @@ app.post("/new-report", async (req, res) => {
     });
 });
 
-app.get("/reports/:pet_id", async (req, res) => {
-  const { pet_id } = req.params;
-  const reports = await Report.findAll({
-    where: {
-      pet_id,
-    },
-  });
-  res.json(reports);
-});
-
 function bodyToIndex(body, id) {
   const respuesta: any = {};
   respuesta.objectID = id;
@@ -282,11 +250,6 @@ app.post("/delete-pet/:id", async (req, res) => {
   res.json(deletedPet);
 });
 
-app.get("/pets", async (req, res) => {
-  const pets = await Pet.findAll();
-  res.json(pets);
-});
-
 app.get("/pet/:id", async (req, res) => {
   const { id } = req.params;
   const pet = await Pet.findByPk(id);
@@ -297,11 +260,6 @@ app.get("/my-pets/:userId", async (req, res) => {
   const { userId } = req.params;
   const pets = await Pet.findAll({ where: { userId, status: "lost" } });
   res.json(pets);
-});
-
-app.get("/users", async (req, res) => {
-  const users = await User.findAll();
-  res.json(users);
 });
 
 app.get("/pets-near-me", async (req, res) => {
@@ -320,5 +278,5 @@ app.get("*", function (req, res) {
 });
 
 app.listen(port, () => {
-  console.log("Corriendo en puerto http://localhost:" + port);
+  console.log("Corriendo en puerto " + port);
 });

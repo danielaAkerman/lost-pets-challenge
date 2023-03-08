@@ -1,15 +1,14 @@
 {
   "name": "lost-pets",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "dev:front": "parcel serve --port 8080 ./front-src/index.html",
     "dev:be": "ts-node ./be-src/dev.ts",
     "dev": "npm run dev:be && npm run dev:front",
     "build:be": "tsc",
-    "build:fe": "",
-    "build": "npm run build:be && npm run build:fe",
+    "build:front": "parcel build ./front-src/index.html ",
+    "build": "npm run build:be && npm run build:front",
     "start": "node ./be-dist/index.js",
     "sync": "ts-node ./be-src/sync.ts"
   },
