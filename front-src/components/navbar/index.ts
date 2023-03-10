@@ -92,6 +92,23 @@ customElements.define(
       const root = document.querySelector(".root") as any;
       initRouter(root);
 
+      const brand = this.querySelector(".navbar-brand");
+      brand!.addEventListener("click", (e) => {
+        if (sessionStorage.getItem("lat")) {
+          history.pushState({}, "", "/welcome");
+          if (root.firstChild) {
+            root.firstChild.remove();
+          }
+          root.appendChild(initPageWelcome(root));
+        } else if (!sessionStorage.getItem("lat")) {
+          history.pushState({}, "", "/ubication");
+          if (root.firstChild) {
+            root.firstChild.remove();
+          }
+          root.appendChild(initPageUbication(root));
+        }
+      });
+
       const datos = this.querySelector("#mis-datos");
       datos!.addEventListener("click", (e) => {
         if (currentState.userId) {
@@ -131,13 +148,12 @@ customElements.define(
       const reportar = this.querySelector("#publicar-mascota");
       reportar!.addEventListener("click", (e) => {
         if (currentState.userId) {
-
           history.pushState({}, "", "/publicar-mascota");
           if (root.firstChild) {
             root.firstChild.remove();
           }
           root.appendChild(initPagePublicar(root));
-        }else if (!currentState.userId) {
+        } else if (!currentState.userId) {
           history.pushState({}, "", "/login");
           if (root.firstChild) {
             root.firstChild.remove();
@@ -155,7 +171,7 @@ customElements.define(
           root.firstChild.remove();
         }
         root.appendChild(initPageUbication(root));
-        location.reload()
+        location.reload();
       });
     }
   }

@@ -1,5 +1,6 @@
 import { state } from "../../state";
-const search= require("../../assets/img/search.jpeg")
+import { initPageWelcome } from "../1-welcome";
+const search = require("../../assets/img/search.jpeg");
 
 export function initPageUbication(root) {
   const div = document.createElement("div");
@@ -21,7 +22,12 @@ export function initPageUbication(root) {
       };
       state.setMyUbication(ubication);
 
-      root.goTo("/welcome");
+      history.pushState({}, "", "/welcome");
+      if (root.firstChild) {
+        root.firstChild.remove();
+      }
+
+      root.appendChild(initPageWelcome(root));
     });
   });
 

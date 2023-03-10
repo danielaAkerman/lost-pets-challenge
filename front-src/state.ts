@@ -1,6 +1,7 @@
+import { initPageLogIn } from "./pages/2b-login";
 import { initPageMisDatos } from "./pages/2c-mis-datos";
-import { initPageMisMascotas } from "./pages/3b-mis-mascotas";
 import { initPagePublicar } from "./pages/3a-publicar";
+import { initPageMisMascotas } from "./pages/3b-mis-mascotas";
 import { initPageEditarMascota } from "./pages/3c-editar-mascota";
 const url = process.env.url;
 
@@ -163,7 +164,14 @@ export const state = {
       .then((data) => {
         console.log("Se autenticó user:", data);
         confirmacion.innerHTML = `El usuario fue creado exitosamente`;
-        // root.goTo(route);
+
+        history.pushState({}, "", "/login");
+        if (root.firstChild) {
+          root.firstChild.remove();
+        }
+
+        root.appendChild(initPageLogIn(root));
+        window.alert("Usuario creado con éxito, inicia sesión para continuar");
       });
   },
 
@@ -386,7 +394,9 @@ export const state = {
       })
       .then((data) => {
         console.log("Mascota Eliminada");
-        window.alert("La publicación de tu mascota se ha eliminado y no volverá a estar disponible");
+        window.alert(
+          "La publicación de tu mascota se ha eliminado y no volverá a estar disponible"
+        );
       });
   },
 };
