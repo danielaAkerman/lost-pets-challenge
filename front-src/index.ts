@@ -1,16 +1,9 @@
-import { initRouter } from "./router";
 import { state } from "./state";
+import "./routes";
 import "./components/navbar";
-
+import "./pages/0-ubication";
+import "./pages/1-welcome";
 
 (function () {
-  const root = document.querySelector(".root") as any;
-  initRouter(root);
-  
-  if (localStorage.token) {
-    state.init();
-  }
-
-
+  state.init();
 })();
-

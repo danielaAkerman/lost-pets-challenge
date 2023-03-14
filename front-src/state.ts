@@ -3,6 +3,8 @@ import { initPageMisDatos } from "./pages/2c-mis-datos";
 import { initPagePublicar } from "./pages/3a-publicar";
 import { initPageMisMascotas } from "./pages/3b-mis-mascotas";
 import { initPageEditarMascota } from "./pages/3c-editar-mascota";
+
+import { Router } from "@vaadin/router";
 const url = process.env.url;
 
 export const state = {
@@ -31,26 +33,28 @@ export const state = {
 
   init() {
     const currentState = this.getState();
-    const userToken = localStorage.getItem("token");
+    if (localStorage.token) {
+      const userToken = localStorage.getItem("token");
 
-    fetch(url + "/init/" + userToken, {})
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        const { id, email, fullname } = data;
+      fetch(url + "/init/" + userToken, {})
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          const { id, email, fullname } = data;
 
-        currentState.userId = id;
-        currentState.email = email;
-        currentState.fullname = fullname;
-        currentState.token = userToken;
+          currentState.userId = id;
+          currentState.email = email;
+          currentState.fullname = fullname;
+          currentState.token = userToken;
 
-        state.setState(currentState);
-      });
+          state.setState(currentState);
+        });
 
-    currentState.token = userToken;
+      currentState.token = userToken;
 
-    this.setState(currentState);
+      this.setState(currentState);
+    }
   },
 
   subscribe(callback: (any) => any) {
@@ -145,8 +149,8 @@ export const state = {
       });
   },
 
-  getAuth(values, root, confirmacion) {
-    const currentState = state.getState();
+  getAuth(values, confirmacion) {
+    // const currentState = state.getState();
 
     const { email, fullname, password } = values;
     console.log("A autenticar user!");
@@ -165,12 +169,8 @@ export const state = {
         console.log("Se autenticó user:", data);
         confirmacion.innerHTML = `El usuario fue creado exitosamente`;
 
-        history.pushState({}, "", "/login");
-        if (root.firstChild) {
-          root.firstChild.remove();
-        }
+        Router.go("login");
 
-        root.appendChild(initPageLogIn(root));
         window.alert("Usuario creado con éxito, inicia sesión para continuar");
       });
   },
@@ -213,7 +213,7 @@ export const state = {
     state.setState(currentState);
   },
 
-  mostrarMascotasCercaTuyo(root, contenedor, template) {
+  mostrarMascotasCercaTuyo(contenedor, template) {
     const currentState = state.getState();
     const lat = sessionStorage.getItem("lat");
     const lng = sessionStorage.getItem("lng");
