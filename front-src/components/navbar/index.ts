@@ -1,31 +1,30 @@
 import { Router } from "@vaadin/router";
 import { state } from "../../state";
 
-const currentState = state.getState();
-const userName = currentState.fullname || ""
 
 customElements.define(
   "nav-comp",
   class extends HTMLElement {
-    constructor() {
-      super();
+    connectedCallback() {
       this.render();
+      state.subscribe(()=>this.render())
     }
-
-    render() {
+    // constructor() {
+      //   super();
+      // }
+      
+      render() {
+      const currentState = state.getState();
+      const userName = currentState.fullname || "";
       this.innerHTML = `
     <nav class="navbar fixed-top">
       <div class="container-fluid">
 
         <a class="navbar-brand" style="cursor:pointer">Lost Pets</a>
 
-
-
-        
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
           <span class="navbar-toggler-icon"></span>
         </button>
-
 
         <div
           class="offcanvas offcanvas-end"
@@ -34,6 +33,7 @@ customElements.define(
           aria-labelledby="offcanvasNavbarLabel"
         >
           <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Hola ${userName}</h5>
             <button
               type="button"
               class="btn-close"
@@ -44,7 +44,10 @@ customElements.define(
           <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 
+            <li class="nav-item"
+            data-bs-dismiss="offcanvas">
 
+            </li>
 
               <li class="nav-item"
               data-bs-dismiss="offcanvas"
@@ -84,17 +87,6 @@ customElements.define(
               <br>
               <br>
               <br>
-
-              <li class="nav-item"
-              data-bs-dismiss="offcanvas">
-              
-
-        <span>
-          Hello ${userName}!
-        </span>
-
-
-              </li>
 
             </ul>
           </div>

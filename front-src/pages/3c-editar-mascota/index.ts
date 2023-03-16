@@ -6,6 +6,7 @@ import { mapboxClient } from "../../lib/mapbox";
 const MAPBOX_TOKEN = process.env.MAPBOX_TOKEN;
 
 import { state } from "../../state";
+import { Router } from "@vaadin/router";
 
 customElements.define(
   "page-editar-mascota",
@@ -45,7 +46,7 @@ customElements.define(
       </div>
     
       <button type="submit" class="btn btn-primary">Publicar</button>
-      
+
       </form>
     `;
 
@@ -147,6 +148,7 @@ customElements.define(
           )!.innerHTML = `Insertar ubicación para continuar`;
         }
       });
+
     }
   }
 );
