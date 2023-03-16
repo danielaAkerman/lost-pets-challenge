@@ -1,69 +1,70 @@
+import { Router } from "@vaadin/router";
 import { state } from "../../state";
-import { initPageSignUp } from "../2a-signup";
 
-export function initPageLogIn(root, route?) {
-  const div = document.createElement("div");
+customElements.define(
+  "page-login",
+  class extends HTMLElement {
+    connectedCallback() {
+      this.render();
+    }
 
-  div.innerHTML = `
-  <h1 class="fs-1">Log in</h1>
+    render() {
+      this.innerHTML = `
+      <h1 class="fs-1">Log in</h1>
 
-  <form class="form-login">
+      <form class="form-login">
+    
+      <div class="mb-3">
+        <label for="Email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="Email" aria-describedby="emailHelp">
+      </div>
+    
+      <div class="mb-3">
+        <label for="Password" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="Password">
+      </div>
+    
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="Check" checked>
+        <label class="form-check-label" for="Check">Mantener sesión iniciada</label>
+      </div>
+    
+      <button type="submit" class="btn btn-primary">Ingresar</button>
+      
+      <div class="alerta"></div>
+    
+      </form>
+      
+      <hr>
+      
+      <div class="login-signup-container">
+        <label class="login-signup">¿Aún no tenés cuenta?</label>
+        <button class="btn btn-success crear-cuenta">Crear cuenta</button>
+      </div>
+    `;
 
-  <div class="mb-3">
-    <label for="Email" class="form-label">Email</label>
-    <input type="email" class="form-control" id="Email" aria-describedby="emailHelp">
-  </div>
+      const buttonNewAccount = this.querySelector(".crear-cuenta")! as any;
+      buttonNewAccount.addEventListener("click", (e) => {
+        Router.go("signup");
+      });
 
-  <div class="mb-3">
-    <label for="Password" class="form-label">Contraseña</label>
-    <input type="password" class="form-control" id="Password">
-  </div>
+      const emailInput = this.querySelector("#Email")! as any;
+      const passwordInput = this.querySelector("#Password")! as any;
+      const checkInput = this.querySelector("#Check")! as any;
 
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="Check" checked>
-    <label class="form-check-label" for="Check">Mantener sesión iniciada</label>
-  </div>
+      const alerta = this.querySelector(".alerta")! as any;
 
-  <button type="submit" class="btn btn-primary">Ingresar</button>
-  
-  <div class="alerta"></div>
+      const form = this.querySelector(".form-login");
+      form?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const loginValues: any = {};
 
-  </form>
-  
-  <hr>
-  
-  <div class="login-signup-container">
-    <label class="login-signup">¿Aún no tenés cuenta?</label>
-    <button class="btn btn-success crear-cuenta">Crear cuenta</button>
-  </div>
-  `;
+        loginValues.email = emailInput.value;
+        loginValues.password = passwordInput.value;
+        loginValues.check = checkInput.checked;
 
-  const buttonNewAccount = div.querySelector(".crear-cuenta");
-  buttonNewAccount?.addEventListener("click", (e) => {
-    history.pushState({}, "", "/signup");
-          if (root.firstChild) {
-            root.firstChild.remove();
-          }
-          root.appendChild(initPageSignUp(root))
-  });
-
-  const emailInput = div.querySelector("#Email")! as any;
-  const passwordInput = div.querySelector("#Password")! as any;
-  const checkInput = div.querySelector("#Check")! as any;
-
-  const alerta = div.querySelector(".alerta")! as any;
-
-  const form = div.querySelector(".form-login");
-  form?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const loginValues: any = {};
-
-    loginValues.email = emailInput.value;
-    loginValues.password = passwordInput.value;
-    loginValues.check = checkInput.checked;
-
-    state.logIn(loginValues, root, alerta, route);
-  });
-
-  return div;
-}
+        state.logIn(loginValues, alerta);
+      });
+    }
+  }
+);

@@ -1,9 +1,3 @@
-import { initPageLogIn } from "./pages/2b-login";
-import { initPageMisDatos } from "./pages/2c-mis-datos";
-import { initPagePublicar } from "./pages/3a-publicar";
-import { initPageMisMascotas } from "./pages/3b-mis-mascotas";
-import { initPageEditarMascota } from "./pages/3c-editar-mascota";
-
 import { Router } from "@vaadin/router";
 const url = process.env.url;
 
@@ -14,6 +8,8 @@ export const state = {
     token: "",
     userId: "",
     ubication: {},
+    nextRoute: "",
+    editPetId: "",
   },
   listeners: [],
 
@@ -61,7 +57,7 @@ export const state = {
     this.listeners.push(callback);
   },
 
-  logIn(values, root, alerta, route) {
+  logIn(values, alerta) {
     const currentState = state.getState();
 
     const { email, password, check } = values;
@@ -93,24 +89,11 @@ export const state = {
           if (check) {
             localStorage.setItem("token", data.token.toString());
           }
-          console.log(route);
 
           // ROUTEO
-
-          history.pushState({}, "", route);
-          if (root.firstChild) {
-            root.firstChild.remove();
-          }
-
-          if (route == "/mis-datos") {
-            root.appendChild(initPageMisDatos(root));
-          }
-          if (route == "/mis-mascotas") {
-            root.appendChild(initPageMisMascotas(root));
-          }
-          if (route == "/publicar-mascota") {
-            root.appendChild(initPagePublicar(root));
-          }
+          const route = currentState.nextRoute;
+          console.log(route);
+          Router.go(route);
         }
       });
   },
@@ -265,7 +248,7 @@ export const state = {
       });
   },
 
-  mostrarMisMascotas(root, contenedor, template) {
+  mostrarMisMascotas(contenedor, template) {
     const currentState = state.getState();
     fetch(url + "/my-pets/" + currentState.userId)
       .then((res) => {
@@ -320,14 +303,11 @@ export const state = {
       });
   },
 
-  irAEditarMascota(root, pet_id) {
+  irAEditarMascota(root) {
     // ROUTEO
-    history.pushState({}, "", "/editar-mascota");
-    if (root.firstChild) {
-      root.firstChild.remove();
-    }
-    root.appendChild(initPageEditarMascota(root));
-
+    // Router.go("editar-mascota");
+    const currentState = state.getState();
+    const pet_id = currentState.editPetId;
     // DB
     fetch(url + "/pet/" + pet_id)
       .then((res) => {
@@ -381,7 +361,7 @@ export const state = {
       });
   },
 
-  eliminarMascota(root, pet_id) {
+  eliminarMascota(pet_id) {
     fetch(url + "/delete-pet/" + pet_id, {
       method: "post",
       headers: {
@@ -394,9 +374,6 @@ export const state = {
       })
       .then((data) => {
         console.log("Mascota Eliminada");
-        window.alert(
-          "La publicación de tu mascota se ha eliminado y no volverá a estar disponible"
-        );
       });
   },
 };

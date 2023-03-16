@@ -27,7 +27,7 @@ body {
   /* background-color: #f7f89b; */
 }
 
-nav {
+.navbar {
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -95,6 +95,6 @@ a {
 
 .dz-details,
 .dz-success-mark,
-.dz-error-mark{
-  display: none!important
+.dz-error-mark {
+  display: none !important;
 }

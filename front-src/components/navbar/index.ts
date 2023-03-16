@@ -1,14 +1,8 @@
-import { initRouter } from "../../router";
+import { Router } from "@vaadin/router";
 import { state } from "../../state";
 
-import { initPageUbication } from "../../pages/0-ubication";
-import { initPageWelcome } from "../../pages/1-welcome";
-import { initPageMisDatos } from "../../pages/2c-mis-datos";
-import { initPagePublicar } from "../../pages/3a-publicar";
-import { initPageMisMascotas } from "../../pages/3b-mis-mascotas";
-import { initPageLogIn } from "../../pages/2b-login";
-
 const currentState = state.getState();
+const userName = currentState.fullname || ""
 
 customElements.define(
   "nav-comp",
@@ -25,6 +19,9 @@ customElements.define(
 
         <a class="navbar-brand" style="cursor:pointer">Lost Pets</a>
 
+
+
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -82,6 +79,23 @@ customElements.define(
                   Cerrar sesión
                 </div>
               </li>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+
+              <li class="nav-item"
+              data-bs-dismiss="offcanvas">
+              
+
+        <span>
+          Hello ${userName}!
+        </span>
+
+
+              </li>
+
             </ul>
           </div>
         </div>
@@ -89,40 +103,23 @@ customElements.define(
       </div>
     </nav>`;
 
-      const root = document.querySelector(".root") as any;
-      initRouter(root);
-
       const brand = this.querySelector(".navbar-brand");
       brand!.addEventListener("click", (e) => {
         if (sessionStorage.getItem("lat")) {
-          history.pushState({}, "", "/welcome");
-          if (root.firstChild) {
-            root.firstChild.remove();
-          }
-          root.appendChild(initPageWelcome(root));
+          Router.go("pets");
         } else if (!sessionStorage.getItem("lat")) {
-          history.pushState({}, "", "/ubication");
-          if (root.firstChild) {
-            root.firstChild.remove();
-          }
-          root.appendChild(initPageUbication(root));
+          Router.go("ubication");
         }
       });
 
       const datos = this.querySelector("#mis-datos");
       datos!.addEventListener("click", (e) => {
         if (currentState.userId) {
-          history.pushState({}, "", "/mis-datos");
-          if (root.firstChild) {
-            root.firstChild.remove();
-          }
-          root.appendChild(initPageMisDatos(root));
+          Router.go("mis-datos");
         } else if (!currentState.userId) {
-          history.pushState({}, "", "/login");
-          if (root.firstChild) {
-            root.firstChild.remove();
-          }
-          root.appendChild(initPageLogIn(root, "/mis-datos"));
+          Router.go("login");
+          currentState.nextRoute = "mis-datos";
+          state.setState(currentState);
         }
       });
 
@@ -131,46 +128,29 @@ customElements.define(
         if (currentState.userId) {
           console.log("A mis mascotas perdidas");
 
-          history.pushState({}, "", "/mis-mascotas");
-          if (root.firstChild) {
-            root.firstChild.remove();
-          }
-          root.appendChild(initPageMisMascotas(root));
+          Router.go("mis-mascotas");
         } else if (!currentState.userId) {
-          history.pushState({}, "", "/login");
-          if (root.firstChild) {
-            root.firstChild.remove();
-          }
-          root.appendChild(initPageLogIn(root, "/mis-mascotas"));
+          Router.go("login");
+          currentState.nextRoute = "mis-mascotas";
+          state.setState(currentState);
         }
       });
 
       const reportar = this.querySelector("#publicar-mascota");
       reportar!.addEventListener("click", (e) => {
         if (currentState.userId) {
-          history.pushState({}, "", "/publicar-mascota");
-          if (root.firstChild) {
-            root.firstChild.remove();
-          }
-          root.appendChild(initPagePublicar(root));
+          Router.go("publicar-mascota");
         } else if (!currentState.userId) {
-          history.pushState({}, "", "/login");
-          if (root.firstChild) {
-            root.firstChild.remove();
-          }
-          root.appendChild(initPageLogIn(root, "/publicar-mascota"));
+          Router.go("login");
+          currentState.nextRoute = "publicar-mascota";
+          state.setState(currentState);
         }
       });
 
       const cerrarSesion = this.querySelector("#cerrar-sesion");
       cerrarSesion!.addEventListener("click", (e) => {
         state.logOut();
-
-        history.pushState({}, "", "/");
-        if (root.firstChild) {
-          root.firstChild.remove();
-        }
-        root.appendChild(initPageUbication(root));
+        Router.go("ubication");
         location.reload();
       });
     }

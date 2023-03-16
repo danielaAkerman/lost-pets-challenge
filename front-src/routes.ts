@@ -9,6 +9,6 @@ router.setRoutes([
   { path: "/login", component: "page-login" },
   { path: "/mis-datos", component: "page-mis-datos" },
   { path: "/publicar-mascota", component: "page-publicar" },
-  { path: "/mis-mascotas", component: "page-mis-datos" },
+  { path: "/mis-mascotas", component: "page-mis-mascotas" },
   { path: "/editar-mascota", component: "page-editar-mascota" },
 ]);
