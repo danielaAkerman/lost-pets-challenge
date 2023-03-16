@@ -258,6 +258,7 @@ export const state = {
         if (results.length == 0) {
           contenedor.innerHTML = `<h5 class="card-title">No tenés mascotas reportadas</h5>`;
         } else {
+          console.log("state mis mascotas ok")
           contenedor.replaceChildren();
 
           for (let r of results) {

@@ -5,7 +5,14 @@ customElements.define(
   "page-mis-datos",
   class extends HTMLElement {
     connectedCallback() {
-      this.render();
+      let counterB = 1;
+      const intervalIdB = setInterval(() => {
+        counterB--;
+        if (counterB < 0) {
+          clearInterval(intervalIdB);
+        }
+        this.render();
+      }, 1000);
     }
 
     render() {
@@ -14,9 +21,9 @@ customElements.define(
         console.log("hay user");
       } else if (!currentState.userId) {
         console.log("NO hay user");
-        currentState.nextRoute= "mis-datos"
-        state.setState(currentState)
-        Router.go("login")
+        currentState.nextRoute = "mis-datos";
+        state.setState(currentState);
+        Router.go("login");
       }
 
       this.innerHTML = `

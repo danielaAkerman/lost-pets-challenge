@@ -41,34 +41,42 @@ customElements.define(
       const contenedor = this.querySelector(".results")! as any;
       const template = this.querySelector("#template");
 
-      state.mostrarMisMascotas(contenedor, template);
-
-      // Agrego listenners Botón Editar y Eliminar
-      let counter = 1;
+      let counterB = 1;
       const intervalIdB = setInterval(() => {
-        counter--;
-        if (counter < 0) {
+        counterB--;
+        if (counterB < 0) {
           clearInterval(intervalIdB);
-          const items = contenedor.children;
-          for (const i of items) {
-            const editButton = i.querySelector("#edit_pet")! as any;
 
-            editButton.addEventListener("click", (e) => {
-              const pet_id = e.target.getAttribute("pet_id");
-              currentState.editPetId=pet_id
-              state.setState(currentState);
-              Router.go("editar-mascota");
-              // state.irAEditarMascota(pet_id);
-            });
+          state.mostrarMisMascotas(contenedor, template);
 
-            const deleteButton = i.querySelector("#delete_pet")! as any;
+          // Agrego listenners Botón Editar y Eliminar
+          let counter = 1;
+          const intervalId = setInterval(() => {
+            counter--;
+            if (counter < 0) {
+              clearInterval(intervalId);
+              const items = contenedor.children;
+              for (const i of items) {
+                const editButton = i.querySelector("#edit_pet")! as any;
 
-            deleteButton.addEventListener("click", (e) => {
-              const pet_id = e.target.getAttribute("pet_id");
-              state.eliminarMascota(pet_id);
-              i.innerHTML=`Tu mascota ya no está publicada`
-            });
-          }
+                editButton.addEventListener("click", (e) => {
+                  const pet_id = e.target.getAttribute("pet_id");
+                  currentState.editPetId = pet_id;
+                  state.setState(currentState);
+                  Router.go("editar-mascota");
+                  // state.irAEditarMascota(pet_id);
+                });
+
+                const deleteButton = i.querySelector("#delete_pet")! as any;
+
+                deleteButton.addEventListener("click", (e) => {
+                  const pet_id = e.target.getAttribute("pet_id");
+                  state.eliminarMascota(pet_id);
+                  i.innerHTML = `Tu mascota ya no está publicada`;
+                });
+              }
+            }
+          }, 1000);
         }
       }, 1000);
     }
