@@ -4,7 +4,7 @@ import * as crypto from "crypto";
 import * as process from "process";
 import * as cors from "cors";
 const sgMail = require("@sendgrid/mail");
-// import * as jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 // import { User, Pet, Auth, Report } from "./models";
 // import { index } from "./lib/algolia";
 // import { cloudinary } from "./lib/cloudinary";
@@ -23,7 +23,6 @@ import {
   getMyPets,
   petsNearMe,
 } from "./controllers/pets-controller";
-
 
 const port = process.env.PORT;
 const app = express();
@@ -94,7 +93,7 @@ app.post("/new-pet", async (req, res) => {
 app.post("/new-report", async (req, res) => {
   const reporte = await newReport(req.body);
   // reporte= { message: `Reporte enviado a ${ownerEmail}` }
-  res.json({reporte});
+  res.json({ reporte });
 });
 
 app.post("/edit-pet/:id", async (req, res) => {
