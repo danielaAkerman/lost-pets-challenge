@@ -24,7 +24,7 @@ export async function signUp(email, fullname, passHash) {
     user_id: user.dataValues.id,
   });
 
-  auth._userToken = jwt.sign(user.dataValues.id, SECRET);
+  auth._userToken = jwt.sign({ id: auth.user_id }, SECRET);
   return auth;
 }
 
