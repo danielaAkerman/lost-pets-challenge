@@ -18,11 +18,13 @@ export async function signUp(email, fullname, passHash) {
     fullname,
   });
 
-  const auth = await Auth.create({
+  const auth: any = await Auth.create({
     email,
     password: passHash,
     user_id: user.dataValues.id,
   });
+
+  auth._userToken = jwt.sign(user.dataValues.id, SECRET);
   return auth;
 }
 
